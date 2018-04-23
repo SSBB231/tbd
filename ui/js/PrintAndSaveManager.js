@@ -4,7 +4,6 @@ Clase que se encarga de salvar e imprimir archivos
 function newPrintAndSaveManager() {
 	
 	var instance = {
-
         //Datos miembro
 
 		//Arreglo que contiene la información de los archivos a salvar o a imprimir
