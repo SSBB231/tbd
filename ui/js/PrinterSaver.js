@@ -1,5 +1,7 @@
 /*
 Clase que se encarga de salvar e imprimir archivos
+
+TODO: Arreglar este archivo para que funcione solamente con los links
 */
 function newPrinterSaver() {
 
@@ -27,8 +29,6 @@ function newPrinterSaver() {
 
             this.allFiles = [];
             this.selectedFiles = [];
-
-            this.fileFetcher = newFileFetcher(this.selectedFiles, this);
         },
 
         noFiles() {
@@ -107,6 +107,9 @@ function newPrinterSaver() {
 
 //Esta función descargará los archivos en un zip
 function saveZip(files){
+
+    var zipGenerator = new JSZip();
+
     files.forEach(f=>console.log(f));
 }
 

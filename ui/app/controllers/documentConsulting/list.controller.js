@@ -6,7 +6,7 @@ sap.ui.controller("app.controllers.documentConsulting.list", {
 	
 	//CAMBIO: agrego una instancia de un PrintAndSaveManager
 	onInit: function() {
-		this.printerSaver = newPrintAndSaveManager();
+		this.printerSaver = newPrinterSaver();
 	},
 	
 	//Agregar función que haga el handling de presionar el botón de imprimir
@@ -15,12 +15,13 @@ sap.ui.controller("app.controllers.documentConsulting.list", {
 		//Filtrar los archivos que no están seleccionados
         this.printerSaver.apllySelectionFilter(this._table.getCheckedElements());
 
+        //If there are no files selected, then send a message and return from function
         if(this.printerSaver.noFiles()) {
             alert("Por favor, selecione os arquivos para imprimir");
             return;
         }
 
-		this.printerSaver.fetchFilesFromBackend();
+		this.printerSaver.printAllSelected();
 	},
 	
 	onAfterRendering: function(html) {
