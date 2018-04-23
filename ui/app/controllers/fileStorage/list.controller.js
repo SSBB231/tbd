@@ -3,7 +3,12 @@ sap.ui.controller("app.controllers.fileStorage.list", {
 	onDataRefactor: function(data) {
 		return $.extend(data, this.data);
 	},
-	onInit: function() {},
+
+	//Add a PrintAndSaveManager reference
+	onInit: function() {
+		this.printerSaver = newPrintAndSaveManager();
+	},
+
 	onAfterRendering: function(html) {
 		var _self = this;
 		this.view = html;
@@ -43,10 +48,48 @@ sap.ui.controller("app.controllers.fileStorage.list", {
 				iconFont: "DataManager",
 				tooltip: i18n('CLICK PRESS TO HIDE LEFT PANEL'),
 				enabled: true
+			},
+
+			//Información para el botón de impresión
+			{
+				onPress: function() {
+					_self.handlePrintClick();
+				},
+				icon: "Printersimple",
+				iconFont: "Finance-and-Office",
+				tooltip: i18n('CLICK PRESS') + ' ' + i18n('TO') + ' ' + i18n('PRINT'),
+				enabled: true
+			},
+
+			//Información para el botón de descarga
+			{
+				onPress: function() {
+					alert("DOWNLOADING");
+				},
+				icon: "download",
+				iconFont: "DataManager",
+				tooltip: i18n('CLICK PRESS') + ' ' + i18n('TO') + ' ' + i18n('DOWNLOAD'),
+				enabled: true
 			}],
 			hideGrid: true
 		});
 	},
+
+    //Function that will handle the print button click
+    handlePrintClick: function(){
+
+        //Filter the files such that only selected files remain.
+        this.printerSaver.apllySelectionFilter(this._table.getCheckedElements());
+
+        //If no files were selected, notify user
+        if(this.printerSaver.noFiles()) {
+            alert("Por favor, selecione os arquivos para imprimir");
+            return;
+        }
+
+        this.printerSaver.fetchFilesFromBackend();
+    },
+
 	renderFilter: function() {
 		var _self = this;
 		this.filterBox.empty();
