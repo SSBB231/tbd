@@ -57,6 +57,6 @@ Data.config = {
             list: 'documentConsulting/read/',
             readStructure: 'documentConsulting/readStructure/',
             listAdvancedFilters: 'documentConsulting/listAdvancedFilters/'
-        }
+        },
     }
 };

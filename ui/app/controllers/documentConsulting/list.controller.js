@@ -15,8 +15,12 @@ sap.ui.controller("app.controllers.documentConsulting.list", {
 		//Filtrar los archivos que no están seleccionados
         this.printerSaver.apllySelectionFilter(this._table.getCheckedElements());
 
-        //Imprimirlos todos
-        this.printerSaver.printAllSelected();
+        if(this.printerSaver.noFiles()) {
+            alert("Por favor, selecione os arquivos para imprimir");
+            return;
+        }
+
+		this.printerSaver.fetchFilesFromBackend();
 	},
 	
 	onAfterRendering: function(html) {
@@ -424,7 +428,7 @@ sap.ui.controller("app.controllers.documentConsulting.list", {
 			hasPagination: true, //true
 			flags: [],
 			headers: headers,
-			body: body
+			body: body,
 			// onSort: function(idx, asc, page, filter){},
 			//          totalPages: data ? data.meta.page : 1,
 			//          actualPage: this.page,
