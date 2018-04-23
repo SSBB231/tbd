@@ -1,0 +1,67 @@
+<template data-controller-name="app.controllers.documentApproval.configuration">
+    <div class="forms-wrapper">
+        <div class="form-columns one-column">
+            <div class="form-title">{{i18n 'GENERAL INFORMATION'}}</div>
+            <div class="mandatory">
+                <span>* {{i18n 'MANDATORY FIELD'}}</span>
+            </div>
+        </div>
+        <div class="form-columns two-columns">
+            <div class="column">
+                <div class="row">
+                    <div class="label">{{i18n 'DOCUMENT TYPE'}}</div>
+                    <div class="element" id="docType"></div>
+                </div>
+                <div class="row">
+                    <div class="label">{{i18n 'FILE NAME'}}</div>
+                    <div class="element" id="fileName"></div>
+                </div>
+                <div class="row">
+                    <div class="label">{{i18n 'COMPANY'}}</div>
+                    <div class="element" id="company"></div>
+                </div>
+                <div class="row">
+                    <div class="label">{{i18n 'STATUS'}}</div>
+                    <div class="element" id="status"></div>
+                </div>
+                <div class="row">
+                    <div class="label">{{i18n 'VALID FROM'}}</div>
+                    <div class="element" id="validFrom"></div>
+                </div>
+                <div class="row">
+                    <div class="label">{{i18n 'APPROVAL DATE'}}</div>
+                    <div class="element" id="approvalDate"></div>
+                </div>
+                <div class="row"></div>
+                <div class="row"></div>
+                <div class="row"></div>
+            </div>
+            <div class="column">
+                <div class="row">
+                    <div class="label">{{i18n 'DESCRIPTION'}}</div>
+                    <div class="element" id="docTypeDescription"></div>
+                </div>
+                <div class="row">
+                    <div class="label">{{i18n 'LINK'}}</div>
+                    <div class="element" id="imageUrl"></div>
+                </div>
+                <div class="row">
+                    <div class="label">{{i18n 'BRANCH'}}</div>
+                    <div class="element" id="branch"></div>
+                </div>
+                <div class="row">
+                    <div class="label">{{i18n 'CLASSIFICATION'}}</div>
+                    <div class="element" id="classification"></div>
+                </div>
+                <div class="row">
+                    <div class="label">{{i18n 'VALID TO'}}</div>
+                    <div class="element" id="validTo"></div>
+                </div>
+                <div class="row">
+                    <div class="label">{{i18n 'COMMENTS'}}</div>
+                    <div class="element" id="comments"></div>
+                </div>                
+            </div>
+        </div>
+    </div>
+</template>

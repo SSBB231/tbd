@@ -1,0 +1,219 @@
+#GENERAL
+TBD TAB TITLE=Tax Business Documents
+COMPONENT NAME=Tax Business Documents
+INSUFFICIENT PRIVILEGES=Privilégios insuficientes
+INVALID DATA=Dados Inválidos
+INVALID DATE=Data Inválida
+
+#LIBRARY
+CREATE=criar 
+COMPANY=Empresa
+UF=UF
+BRANCH=Filial
+TAX=Tributo
+TYPE TAX=Tipo Tributo
+EXECUTE=Executar
+EXECUTE APPROVAL=Executar Aprovação de Documento
+TO SELECT=para selecionar
+TO SELECT TAX=Filtrar por Tributo
+TO SHOW/HIDE FILTERS=para mostrar/esconder Filtros Avançados
+TO SEARCH=Clique/Aperte Enter para confirmar Pesquisa
+TO RESET FILTERS=Clique/Aperte Enter para limpiar Pesquisa
+NOT FOUND=Não encontrado
+HIDE LEFT PANEL=abrir/fechar Painel
+LIBRARY CONTENT ADVANCED FILTERS TOOLTIP=Clique/Aperte Enter para mostrar/ocultar Filtros Avançados
+CLICK PRESS TO CREATE=Clique/Aperte Enter para criar 
+CLICK PRESS TO HIDE LEFT PANEL=Clique/Aperte Enter para abrir/fechar Painel
+
+#Toolbar labels
+SAVE=Gravar
+SAVE AND NEW=Salvar e Novo
+CANCEL=Cancelar
+CLOSE=Fechar
+EDIT=Editar
+BACK=Voltar
+GO BACK=voltar
+VISUALIZATION=visualizar
+VISUALIZATION ACTION=Visualizar
+INFO=Detalhe
+DATE=Data
+LIBRARY=Biblioteca
+CLEAR FILTERS=Limpar Filtros
+FILTER COMPANY=Filtrar por Empresa
+FILTER BRANCH=Filtrar por Filial
+FILTER UF=Filtrar por UF
+FILTER TRIBUTE=Filtrar por Tributo
+FILTER DOCUMENT NUMBER=Filtrar por Número do Documento
+FILTER DOCUMENT ID=Filtrar por ID de Documento
+
+#General labels and popup titles
+TO VIEW=para visualizar
+GENERAL INFORMATION=Informações Gerais
+ID=ID
+NO=Não
+YES=Sim
+MANDATORY FIELD=Campo Obrigatório
+REQUIRED FIELDS=Campos Obrigatórios
+DELETE=Excluir
+SUCCESS=Sucesso
+AUTOMATIC ID=ID automática do sistema
+ADVANCED FILTER=Filtros avançados
+OK=Ok
+DEFAULT=Omissão
+ALERT=Alerta
+SUCCESS=Sucesso
+ERROR=Erro
+ERRORS=Erros
+BASIC DATA=Dados Básicos
+COMPLEMENTARY DATA=Dados Complementares
+ACCESS NOT ALLOWED=O Acesso Não Autorizado
+TO=para
+FILL IN=Preencha os 
+FILL=Preencher
+SEARCH BOX TOOLTIP=Preencha e Aperte Enter para filtrar pelo
+
+#General messages
+CONFIRM SAVE=Você realmente quer salvar/editar?
+SAVE SUCCESS=Registro Gravado com Sucesso
+ERROR WHEN OBTAINING DATA=Não foi possível recuperar os dados
+REQUIRED FIELDS MSG=Por favor, preencha os campos obrigatórios
+SAVE FAILED=Ocorreu um erro ao salvar seus dados, tente novamente
+COPY FAILED=Ocorreu um erro ao criar cópia, tente novamente
+SAVE SUCCEEDED=Cadastro atualizado com sucesso!
+SAVE DIALOG=Deseja atualizar cadastro?
+SURE YOU WANT DELETE=Você realmente quer excluir?
+DELETED SUCCESFULLY=Cadastro excluído com successo
+ERROR ON DELETING=Houve um erro ao tentar excluir. Tente mais tarde
+ERROR LOADING LAYOUT=Erro ao carregar o leiaute selecionado
+ERROR LOADING SELECT CONTENT=Aconteceu um erro ao tentar carregar os conteúdo das listas
+INVALID UPDATE1=As seguintes associações estão bloqueando esta operação:
+INVALID UPDATE2=Favor alterar as datas de fim de vigência das mesmas.
+ERROR FIELDS MSG=Alguns campos não tem os dados corretos para ser processados.
+
+#DOCUMENT TYPE CONFIGURATION
+DOCUMENT TYPE CONFIGURATION=Configuração de Tipo de Documento
+DOCUMENT TYPE CONFIGURATION NEW=Nova Configuração de Tipo de Documento
+DOCUMENT TYPE CONFIGURATION EDIT=Editar Configuração de Tipo de Documento
+DOCUMENT TYPE CONFIGURATION VIEW=Visualizar Configuração de Tipo de Documento
+DOCUMENT TYPE=Tipo de Documento
+DESCRIPTION=Descrição
+NUMBER RANGE=Intervalo de Numeração
+STATUS=Status
+CREATION=Criação
+PENDING=Pendente
+APPROVED=Aprovado
+ARCHIVED=Arquivado
+VALIDITY=Validade
+VALID FROM=Validade De
+VALID TO=Validade Até
+
+#DOCUMENT SECURITY
+DOCUMENT SECURITY=Classificação de Segurança dos Documentos
+DOCUMENT SECURITY EDIT=Editar Classificação de Segurança dos Documentos
+DOCUMENT SECURITY NEW=Nova Classificação de Segurança dos Documentos
+DOCUMENT SECURITY VIEW=Visualizar Classificação de Segurança dos Documentos
+DOCUMENT TYPE DESCRIPTION=Descrição de Tipo de Documento
+CLASSIFICATION=Classificação
+CLASSIFICATION CODE=Código de Classificação
+CLASSIFICATION DESCRIPTION=Classificação descrição
+FREE=Livre
+RESTRICTED=Restrito
+CONFIDENTIAL=Confidencial
+
+#KEY FIELDS CONFIGURATION
+KEY FIELDS CONFIGURATION=Configuração de Campos Chaves
+KEY FIELDS CONFIGURATION EDIT=Editar Configuração de Campos Chaves
+KEY FIELDS CONFIGURATION NEW=Nova Configuração de Campos Chaves
+KEY FIELDS CONFIGURATION VIEW=Visualizar Configuração de Campos Chaves
+STRUCTURE=Estrutura
+KEYS=Campos Chaves
+KEYS LABEL=Chaves
+ADD KEYS=Adicionar Chaves
+DELETE KEYS=Deletar Chaves
+COMPONENT ORIGIN=Componente de Origem
+
+#STORAGE LOCATION CONFIGURATION
+STORAGE LOCATION CONFIGURATION=Configuração de Local de Armazenamento
+STORAGE LOCATION CONFIGURATION NEW=Nova Configuração de Local de Armazenamento
+STORAGE LOCATION CONFIGURATION EDIT=Editar Configuração de Local de Armazenamento
+STORAGE LOCATION CONFIGURATION VIEW=Visualizar Configuração de Local de Armazenamento
+STORAGE LOCATION=Local de Armazenamento
+LEVEL 1=Nível 1
+LEVEL 2=Nível 2
+LEVEL 3=Nível 3
+LEVEL 4=Nível 4
+LEVEL 5=Nível 5
+LEVEL 6=Nível 6
+LEVEL 7=Nível 7
+LEVEL 8=Nível 8
+LEVEL 9=Nível 9
+LEVEL 10=Nível 10
+LEVEL 11=Nível 11
+NO DATA=Sem dados
+
+#DOCUMENT SCANNING
+DOCUMENT SCANNING=Digitalização de Documentos
+DOCUMENT SCANNING EDIT=Editar Digitalização de Documentos
+DOCUMENT SCANNING NEW=Nova Digitalização de Documentos
+DOCUMENT SCANNING VIEW=isualizar Digitalização de Documentos
+
+#FILE STORAGE
+FILE STORAGE=Armazenagem de Arquivos
+FILE STORAGE EDIT=Editar Armazenagem de Arquivos
+FILE STORAGE NEW=Nova Armazenagem de Arquivos
+FILE STORAGE VIEW=Visualizar Armazenagem de Arquivos
+ADDRESS=Endereço
+KEY FIELD=Campo Chave
+SELECT BRANCH=Selecione Filial
+REGION=Região
+LINK=Link
+SELECT UF=Selecione UF
+UPLOAD FILE=Upload de Arquivo
+TO2=para
+FILE=Arquivo
+FILE PREVIEW=Visualização de Arquivo
+USER GROUPS=Grupos do Usuário
+USERNAME=Usuário
+CHOOSE ONE USER OR GROUP=Escolha pelo menos um usuário ou um grupo para compartilhar este arquivo
+SHARE ONLY ON RESTRICTED=O compartilhamento só é permitido para arquivos restritos
+SELECT COMPANY=para selecionar empresa
+UPLOAD FILE BTN TOOLTIP=Upload de Arquivo
+CLASSIFICATION BTN TOOLTIP=Classificação de Arquivo
+SHARE WITH USERS OR GROUPS=Os arquivos restritos devem ser compartilhados com usuários ou grupos
+
+#DOCUMENT APPROVAL
+DOCUMENT APPROVAL=Aprovação de Documentos
+DOCUMENT APPROVAL EDIT=Editar Aprovação de Documentos
+DOCUMENT APPROVAL NEW=Nova Aprovação de Documentos
+DOCUMENT APPROVAL VIEW=Visualizar Aprovação de Documentos
+APPROVAL DATE=Data de Aprovação
+COMMENTS=Comentários
+NO LINK AVAILABLE=Nenhum url disponível
+APPROVAL OPTIONS=Opções de Aprovação
+STATUS UPDATED=Status Atualizado
+ERROR WHILE UPDATING STATUS=Erro ao atualizar o status
+FILE STORAGE STATUS=Status de Arquivo Armazenado
+APPROVAL STATUS=Status de Aprovação de Documentos
+COPY=Copiar
+
+#DOCUMENT CONSULTING
+DOCUMENT CONSULTING=Consulta de Documentos
+DOCUMENT CONSULTING EDIT=Editar Consulta de Documentos
+DOCUMENT CONSULTING NEW=Nova Consulta de Documentos
+DOCUMENT CONSULTING VIEW=Visualizar Consulta de Documentos
+TO SELECT STATE=Filtrar por UF
+TO SELECT BRANCH=Filtrar por Filial
+TO SELECT COMPANY=Filtrar por Empresa
+STATE=UF
+DOCUMENT TYPE ID=Id de Tipo de Documento
+DOCUMENT TYPE NUMBER=Número de Tipo de Documento
+CREATION USERNAME=Usuário de Criação
+CREATION DATE=Data de Criação
+MODIFICATION DATE=Data de Modificação
+MODIFICATION USERNAME=Usuário de Modificação
+FILE DETAILS=Detalhes do Arquivos
+FILE NAMES= Nomes de Arquivos
+COMMENTARY=Comentário
+STRUCTURE KEY FIELDS=Campos Chave de Estrutura
+CONFIGURATION STATUS=Status de configuração do documento
+BRANCH NOT FOUND=Filial não encontrada

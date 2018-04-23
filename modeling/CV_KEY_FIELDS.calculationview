@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:AccessControl="http://www.sap.com/ndb/SQLCoreModelAccessControl.ecore" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="CV_KEY_FIELDS" applyPrivilegeType="ANALYTIC_PRIVILEGE" cacheEnabled="true" checkAnalyticPrivileges="true" defaultClient="crossClient" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="TREE_BASED" dataCategory="DEFAULT" enforceSqlExecution="true" executionSemantic="UNDEFINED" outputViewType="Projection">
+  <origin/>
+  <descriptions defaultDescription="CV_KEY_FIELDS"/>
+  <metadata changedAt="2017-11-13 15:07:34.881"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="48"/>
+  <dataSources>
+    <DataSource id="TBD::KeyFieldsConfig" type="DATA_BASE_TABLE">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="TIMP" columnObjectName="TBD::KeyFieldsConfig"/>
+    </DataSource>
+    <DataSource id="TBD::KeyFieldsConfigKeys" type="DATA_BASE_TABLE">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="TIMP" columnObjectName="TBD::KeyFieldsConfigKeys"/>
+    </DataSource>
+    <DataSource id="ATR::Structure" type="DATA_BASE_TABLE">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="TIMP" columnObjectName="ATR::Structure"/>
+    </DataSource>
+    <DataSource id="CORE::COMPONENT" type="DATA_BASE_TABLE">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="TIMP" columnObjectName="CORE::COMPONENT"/>
+    </DataSource>
+  </dataSources>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:ProjectionView" id="P_KEYS_CONFIG">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="COMPONENT_ORIGIN"/>
+        <viewAttribute id="DOCUMENT_TYPE_ID"/>
+        <viewAttribute id="ID"/>
+        <viewAttribute id="STRUCTURE_ID"/>
+        <viewAttribute id="IS_DELETED">
+          <filter xsi:type="AccessControl:SingleValueFilter" including="false" value="1"/>
+        </viewAttribute>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#TBD::KeyFieldsConfig">
+        <mapping xsi:type="Calculation:AttributeMapping" target="COMPONENT_ORIGIN" source="COMPONENT_ORIGIN"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DOCUMENT_TYPE_ID" source="DOCUMENT_TYPE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STRUCTURE_ID" source="STRUCTURE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IS_DELETED" source="IS_DELETED"/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:ProjectionView" id="P_KEYS_CONFIG_KEYS">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="ID_CONFIGURATION"/>
+        <viewAttribute id="KEY_CODE"/>
+        <viewAttribute id="KEY_NAME"/>
+        <viewAttribute id="ID"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#TBD::KeyFieldsConfigKeys">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_CONFIGURATION" source="ID_CONFIGURATION"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="KEY_CODE" source="KEY_CODE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="KEY_NAME" source="KEY_NAME"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:JoinView" id="J_KEYS" joinType="inner">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="COMPONENT_ORIGIN"/>
+        <viewAttribute id="DOCUMENT_TYPE_ID"/>
+        <viewAttribute id="STRUCTURE_ID"/>
+        <viewAttribute id="KEY_CODE"/>
+        <viewAttribute id="KEY_NAME"/>
+        <viewAttribute id="ID_CONFIGURATION"/>
+        <viewAttribute id="ID"/>
+        <viewAttribute hidden="true" id="JOIN$ID$ID_CONFIGURATION"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#P_KEYS_CONFIG">
+        <mapping xsi:type="Calculation:AttributeMapping" target="COMPONENT_ORIGIN" source="COMPONENT_ORIGIN"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DOCUMENT_TYPE_ID" source="DOCUMENT_TYPE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STRUCTURE_ID" source="STRUCTURE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$ID$ID_CONFIGURATION" source="ID"/>
+      </input>
+      <input node="#P_KEYS_CONFIG_KEYS">
+        <mapping xsi:type="Calculation:AttributeMapping" target="KEY_CODE" source="KEY_CODE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="KEY_NAME" source="KEY_NAME"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_CONFIGURATION" source="ID_CONFIGURATION"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$ID$ID_CONFIGURATION" source="ID_CONFIGURATION"/>
+      </input>
+      <joinAttribute name="JOIN$ID$ID_CONFIGURATION"/>
+    </calculationView>
+    <calculationView xsi:type="Calculation:ProjectionView" id="P_STRUCTURE">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="ID"/>
+        <viewAttribute id="title"/>
+        <viewAttribute id="NAME_PTBR"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#ATR::Structure">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="title" source="title"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="NAME_PTBR" source="NAME_PTBR"/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:JoinView" id="J_STRUCTURES" joinType="inner">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="COMPONENT_ORIGIN"/>
+        <viewAttribute id="DOCUMENT_TYPE_ID"/>
+        <viewAttribute id="STRUCTURE_ID"/>
+        <viewAttribute id="KEY_CODE"/>
+        <viewAttribute id="KEY_NAME"/>
+        <viewAttribute id="ID_CONFIGURATION"/>
+        <viewAttribute id="ID"/>
+        <viewAttribute id="STRUCTURE_NAME"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#J_KEYS">
+        <mapping xsi:type="Calculation:AttributeMapping" target="COMPONENT_ORIGIN" source="COMPONENT_ORIGIN"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DOCUMENT_TYPE_ID" source="DOCUMENT_TYPE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STRUCTURE_ID" source="STRUCTURE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="KEY_CODE" source="KEY_CODE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="KEY_NAME" source="KEY_NAME"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_CONFIGURATION" source="ID_CONFIGURATION"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+      </input>
+      <input node="#P_STRUCTURE">
+        <mapping xsi:type="Calculation:AttributeMapping" target="STRUCTURE_NAME" source="NAME_PTBR"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STRUCTURE_ID" source="ID"/>
+      </input>
+      <joinAttribute name="STRUCTURE_ID"/>
+    </calculationView>
+    <calculationView xsi:type="Calculation:ProjectionView" id="P_COMPONENTS">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="ID"/>
+        <viewAttribute id="NAME"/>
+        <viewAttribute id="DESCRIPTION"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#CORE::COMPONENT">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="NAME" source="NAME"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DESCRIPTION" source="LABEL_PTBR"/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:JoinView" id="J_COMPONENTS_STRUCTURES" joinType="inner">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="COMPONENT_NAME"/>
+        <viewAttribute id="COMPONENT_DESCRIPTION"/>
+        <viewAttribute id="COMPONENT_ORIGIN"/>
+        <viewAttribute id="DOCUMENT_TYPE_ID"/>
+        <viewAttribute id="STRUCTURE_ID"/>
+        <viewAttribute id="KEY_CODE"/>
+        <viewAttribute id="KEY_NAME"/>
+        <viewAttribute id="ID_CONFIGURATION"/>
+        <viewAttribute id="ID"/>
+        <viewAttribute id="STRUCTURE_NAME"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#J_STRUCTURES">
+        <mapping xsi:type="Calculation:AttributeMapping" target="COMPONENT_ORIGIN" source="COMPONENT_ORIGIN"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DOCUMENT_TYPE_ID" source="DOCUMENT_TYPE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STRUCTURE_ID" source="STRUCTURE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="KEY_CODE" source="KEY_CODE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="KEY_NAME" source="KEY_NAME"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_CONFIGURATION" source="ID_CONFIGURATION"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STRUCTURE_NAME" source="STRUCTURE_NAME"/>
+      </input>
+      <input node="#P_COMPONENTS">
+        <mapping xsi:type="Calculation:AttributeMapping" target="COMPONENT_NAME" source="NAME"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="COMPONENT_DESCRIPTION" source="DESCRIPTION"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="COMPONENT_ORIGIN" source="ID"/>
+      </input>
+      <joinAttribute name="COMPONENT_ORIGIN"/>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="J_COMPONENTS_STRUCTURES">
+    <descriptions/>
+    <attributes>
+      <attribute id="COMPONENT_NAME" order="1" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="COMPONENT_NAME"/>
+        <keyMapping columnObjectName="J_COMPONENTS_STRUCTURES" columnName="COMPONENT_NAME"/>
+      </attribute>
+      <attribute id="COMPONENT_DESCRIPTION" order="2" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="COMPONENT_DESCRIPTION"/>
+        <keyMapping columnObjectName="J_COMPONENTS_STRUCTURES" columnName="COMPONENT_DESCRIPTION"/>
+      </attribute>
+      <attribute id="COMPONENT_ORIGIN" order="3" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="COMPONENT_ORIGIN"/>
+        <keyMapping columnObjectName="J_COMPONENTS_STRUCTURES" columnName="COMPONENT_ORIGIN"/>
+      </attribute>
+      <attribute id="DOCUMENT_TYPE_ID" order="4" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="DOCUMENT_TYPE_ID"/>
+        <keyMapping columnObjectName="J_COMPONENTS_STRUCTURES" columnName="DOCUMENT_TYPE_ID"/>
+      </attribute>
+      <attribute id="STRUCTURE_ID" order="5" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="STRUCTURE_ID"/>
+        <keyMapping columnObjectName="J_COMPONENTS_STRUCTURES" columnName="STRUCTURE_ID"/>
+      </attribute>
+      <attribute id="KEY_CODE" order="6" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="KEY_CODE"/>
+        <keyMapping columnObjectName="J_COMPONENTS_STRUCTURES" columnName="KEY_CODE"/>
+      </attribute>
+      <attribute id="KEY_NAME" order="7" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="KEY_NAME"/>
+        <keyMapping columnObjectName="J_COMPONENTS_STRUCTURES" columnName="KEY_NAME"/>
+      </attribute>
+      <attribute id="ID_CONFIGURATION" order="8" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="ID_CONFIGURATION"/>
+        <keyMapping columnObjectName="J_COMPONENTS_STRUCTURES" columnName="ID_CONFIGURATION"/>
+      </attribute>
+      <attribute id="ID" order="9" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="ID"/>
+        <keyMapping columnObjectName="J_COMPONENTS_STRUCTURES" columnName="ID"/>
+      </attribute>
+      <attribute id="STRUCTURE_NAME" order="10" semanticType="empty" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="STRUCTURE_NAME"/>
+        <keyMapping columnObjectName="J_COMPONENTS_STRUCTURES" columnName="STRUCTURE_NAME"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="99" y="87"/>
+        <rectangleSize height="0" width="0"/>
+      </shape>
+      <shape expanded="true" modelObjectName="P_KEYS_CONFIG" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="22" y="453"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="true" modelObjectName="P_KEYS_CONFIG_KEYS" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="176" y="453"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="true" modelObjectName="J_KEYS" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="99" y="357"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="true" modelObjectName="P_STRUCTURE" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="253" y="357"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="true" modelObjectName="J_STRUCTURES" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="176" y="261"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="true" modelObjectName="P_COMPONENTS" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="22" y="261"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="true" modelObjectName="J_COMPONENTS_STRUCTURES" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="99" y="165"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

@@ -1,0 +1,55 @@
+<template data-controller-name='app.controllers.library.LibraryRight'>
+    <div class="empresa-editor-wrapper">
+        <div id="toolbar"></div>
+        <div class="forms">
+            <div class="mandatory">
+                <span>* {{i18n 'MANDATORY FIELD'}}</span>
+            </div>
+            <table class="forms">
+                <tbody>
+                    <tr>
+                        <td>
+                            <span>CPF</span>
+                            <input type="text" name="cpf" id="cpf" onblur="javascript: validarCPF(this.value);" onkeypress="javascript: masks(this, mcpf);" class="fieldSize1" maxlength="14" />
+                        </td>
+                        <td>
+                            <span>Real (R$)</span>
+                            <input class="fieldSize1" type="text" name="valor" onkeypress="masks(this, mvalor);
+                                    next(this, 'cep');" maxlength="14" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>CEP</span>
+                            <input class="fieldSize1" type="text" name="cep" id="cep" onkeypress="masks(this, mcep);
+                                    next(this, 'rg');" size="10" maxlength="9" value="" />
+                        </td>
+                        <td>
+                            <span>RG</span>
+                            <input class="fieldSize1" type="text" name="rg" id="rg" onkeypress="masks(this, mrg);
+                                    next(this, 'data');" size="14" maxlength="12" value="" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Data</span>
+                            <input class="fieldSize1" type="text" name="data" id="data" onkeypress="masks(this, mdata);" size="14" maxlength="10" value="" />
+                        </td>
+                        <td id="uf" class="fieldSize3 required2">
+                            <span>UF</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>CNPJ</span>
+                            <input class="fieldSize1" type="text" value="11.222.333/0001-44" disabled="true" id="CNPJ" />
+                        </td>
+                        <td><span>Somente NÃºmeros</span>
+                            <input class="fieldSize2" type="text" name="numero" id="numero" onkeypress="masks(this, mnumero);" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</template>

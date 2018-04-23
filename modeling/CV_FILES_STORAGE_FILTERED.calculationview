@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:AccessControl="http://www.sap.com/ndb/SQLCoreModelAccessControl.ecore" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="CV_FILES_STORAGE_FILTERED" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="crossClient" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="false" visibility="internal" calculationScenarioType="TREE_BASED" dataCategory="DIMENSION" enforceSqlExecution="true" executionSemantic="UNDEFINED" outputViewType="Projection">
+  <origin/>
+  <descriptions defaultDescription="CV_FILES_STORAGE_FILTERED"/>
+  <metadata changedAt="2018-01-08 14:30:27.264"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="53"/>
+  <dataSources>
+    <DataSource id="CV_FILE_STORAGE_USERS" type="CALCULATION_VIEW">
+      <viewAttributes allViewAttributes="true"/>
+      <resourceUri>/timp.tbd.modeling/calculationviews/CV_FILE_STORAGE_USERS</resourceUri>
+    </DataSource>
+    <DataSource id="CV_FILE_STORAGE_GROUPS" type="CALCULATION_VIEW">
+      <viewAttributes allViewAttributes="true"/>
+      <resourceUri>/timp.tbd.modeling/calculationviews/CV_FILE_STORAGE_GROUPS</resourceUri>
+    </DataSource>
+    <DataSource id="TBD::FileStorage" type="DATA_BASE_TABLE">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="TIMP" columnObjectName="TBD::FileStorage"/>
+    </DataSource>
+    <DataSource id="P_PUBLIC$$$$TBD::FileStorage$$" type="DATA_BASE_TABLE">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="TIMP" columnObjectName="TBD::FileStorage"/>
+    </DataSource>
+    <DataSource id="CORE::USER" type="DATA_BASE_TABLE">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="TIMP" columnObjectName="CORE::USER"/>
+    </DataSource>
+  </dataSources>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:ProjectionView" id="P_USERS">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="FILE_ID"/>
+        <viewAttribute id="ID_USER"/>
+        <viewAttribute id="USER_HANA_USER"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#CV_FILE_STORAGE_USERS">
+        <mapping xsi:type="Calculation:AttributeMapping" target="FILE_ID" source="FILE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_USER" source="ID_USER"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="USER_HANA_USER" source="USER_HANA_USER"/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:ProjectionView" id="P_GROUPS">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="FILE_ID"/>
+        <viewAttribute id="GROUPS_HANA_USER"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#CV_FILE_STORAGE_GROUPS">
+        <mapping xsi:type="Calculation:AttributeMapping" target="FILE_ID" source="FILE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="GROUPS_HANA_USER" source="HANA_USER"/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:ProjectionView" id="P_RESTRICTED">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="FILE_ID"/>
+        <viewAttribute id="IS_DELETED">
+          <filter xsi:type="AccessControl:SingleValueFilter" including="false" value="1"/>
+        </viewAttribute>
+        <viewAttribute id="SECURITY_CLASSIFICATION">
+          <filter xsi:type="AccessControl:SingleValueFilter" including="true" value="3"/>
+        </viewAttribute>
+        <viewAttribute id="CREATION_ID_USER"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#TBD::FileStorage">
+        <mapping xsi:type="Calculation:AttributeMapping" target="FILE_ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IS_DELETED" source="IS_DELETED"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="SECURITY_CLASSIFICATION" source="SECURITY_CLASSIFICATION"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CREATION_ID_USER" source="CREATION.ID_USER"/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:ProjectionView" id="P_PUBLIC">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="FILE_ID"/>
+        <viewAttribute id="IS_DELETED">
+          <filter xsi:type="AccessControl:SingleValueFilter" including="false" value="1"/>
+        </viewAttribute>
+        <viewAttribute id="PUBLIC_SECURITY_CLASSIFICATION">
+          <filter xsi:type="AccessControl:SingleValueFilter" including="true" value="1"/>
+        </viewAttribute>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#P_PUBLIC$$$$TBD::FileStorage$$">
+        <mapping xsi:type="Calculation:AttributeMapping" target="FILE_ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IS_DELETED" source="IS_DELETED"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="PUBLIC_SECURITY_CLASSIFICATION" source="SECURITY_CLASSIFICATION"/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:ProjectionView" id="P_CORE_USERS_1">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="ID"/>
+        <viewAttribute id="RESTRICTED_HANA_USER"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#CORE::USER">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="RESTRICTED_HANA_USER" source="HANA_USER"/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:JoinView" id="J_RESTRICTED" joinType="inner">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="FILE_ID"/>
+        <viewAttribute id="SECURITY_CLASSIFICATION"/>
+        <viewAttribute id="RESTRICTED_HANA_USER"/>
+        <viewAttribute hidden="true" id="JOIN$ID$CREATION_ID_USER"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#P_CORE_USERS_1">
+        <mapping xsi:type="Calculation:AttributeMapping" target="RESTRICTED_HANA_USER" source="RESTRICTED_HANA_USER"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$ID$CREATION_ID_USER" source="ID"/>
+      </input>
+      <input node="#P_RESTRICTED">
+        <mapping xsi:type="Calculation:AttributeMapping" target="FILE_ID" source="FILE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="SECURITY_CLASSIFICATION" source="SECURITY_CLASSIFICATION"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$ID$CREATION_ID_USER" source="CREATION_ID_USER"/>
+      </input>
+      <joinAttribute name="JOIN$ID$CREATION_ID_USER"/>
+    </calculationView>
+    <calculationView xsi:type="Calculation:UnionView" id="Union_1">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="FILE_ID"/>
+        <viewAttribute id="USER_HANA_USER"/>
+        <viewAttribute id="RESTRICTED_HANA_USER"/>
+        <viewAttribute id="PUBLIC_SECURITY_CLASSIFICATION"/>
+        <viewAttribute id="GROUPS_HANA_USER"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input emptyUnionBehavior="NO_ROW" node="#P_USERS">
+        <mapping xsi:type="Calculation:AttributeMapping" target="FILE_ID" source="FILE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="USER_HANA_USER" source="USER_HANA_USER"/>
+        <mapping xsi:type="Calculation:ConstantAttributeMapping" target="RESTRICTED_HANA_USER" null="true" value=""/>
+        <mapping xsi:type="Calculation:ConstantAttributeMapping" target="PUBLIC_SECURITY_CLASSIFICATION" null="true" value=""/>
+        <mapping xsi:type="Calculation:ConstantAttributeMapping" target="GROUPS_HANA_USER" null="true" value=""/>
+      </input>
+      <input emptyUnionBehavior="NO_ROW" node="#P_GROUPS">
+        <mapping xsi:type="Calculation:AttributeMapping" target="FILE_ID" source="FILE_ID"/>
+        <mapping xsi:type="Calculation:ConstantAttributeMapping" target="USER_HANA_USER" null="true" value=""/>
+        <mapping xsi:type="Calculation:ConstantAttributeMapping" target="RESTRICTED_HANA_USER" null="true" value=""/>
+        <mapping xsi:type="Calculation:ConstantAttributeMapping" target="PUBLIC_SECURITY_CLASSIFICATION" null="true" value=""/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="GROUPS_HANA_USER" source="GROUPS_HANA_USER"/>
+      </input>
+      <input emptyUnionBehavior="NO_ROW" node="#P_PUBLIC">
+        <mapping xsi:type="Calculation:AttributeMapping" target="FILE_ID" source="FILE_ID"/>
+        <mapping xsi:type="Calculation:ConstantAttributeMapping" target="USER_HANA_USER" null="true" value=""/>
+        <mapping xsi:type="Calculation:ConstantAttributeMapping" target="RESTRICTED_HANA_USER" null="true" value=""/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="PUBLIC_SECURITY_CLASSIFICATION" source="PUBLIC_SECURITY_CLASSIFICATION"/>
+        <mapping xsi:type="Calculation:ConstantAttributeMapping" target="GROUPS_HANA_USER" null="true" value=""/>
+      </input>
+      <input emptyUnionBehavior="NO_ROW" node="#J_RESTRICTED">
+        <mapping xsi:type="Calculation:AttributeMapping" target="FILE_ID" source="FILE_ID"/>
+        <mapping xsi:type="Calculation:ConstantAttributeMapping" target="USER_HANA_USER" null="true" value=""/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="RESTRICTED_HANA_USER" source="RESTRICTED_HANA_USER"/>
+        <mapping xsi:type="Calculation:ConstantAttributeMapping" target="PUBLIC_SECURITY_CLASSIFICATION" null="true" value=""/>
+        <mapping xsi:type="Calculation:ConstantAttributeMapping" target="GROUPS_HANA_USER" null="true" value=""/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:AggregationView" id="Aggregation_1">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="FILE_ID"/>
+        <viewAttribute id="USER_HANA_USER"/>
+        <viewAttribute id="RESTRICTED_HANA_USER"/>
+        <viewAttribute id="PUBLIC_SECURITY_CLASSIFICATION"/>
+        <viewAttribute id="GROUPS_HANA_USER"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#Union_1">
+        <mapping xsi:type="Calculation:AttributeMapping" target="FILE_ID" source="FILE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="USER_HANA_USER" source="USER_HANA_USER"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="RESTRICTED_HANA_USER" source="RESTRICTED_HANA_USER"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="PUBLIC_SECURITY_CLASSIFICATION" source="PUBLIC_SECURITY_CLASSIFICATION"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="GROUPS_HANA_USER" source="GROUPS_HANA_USER"/>
+      </input>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Aggregation_1">
+    <descriptions/>
+    <attributes>
+      <attribute id="FILE_ID" order="1" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="FILE_ID"/>
+        <keyMapping columnObjectName="Aggregation_1" columnName="FILE_ID"/>
+      </attribute>
+      <attribute id="USER_HANA_USER" order="2" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="USER_HANA_USER"/>
+        <keyMapping columnObjectName="Aggregation_1" columnName="USER_HANA_USER"/>
+      </attribute>
+      <attribute id="RESTRICTED_HANA_USER" order="3" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="RESTRICTED_HANA_USER"/>
+        <keyMapping columnObjectName="Aggregation_1" columnName="RESTRICTED_HANA_USER"/>
+      </attribute>
+      <attribute id="PUBLIC_SECURITY_CLASSIFICATION" order="4" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="PUBLIC_SECURITY_CLASSIFICATION"/>
+        <keyMapping columnObjectName="Aggregation_1" columnName="PUBLIC_SECURITY_CLASSIFICATION"/>
+      </attribute>
+      <attribute id="GROUPS_HANA_USER" order="5" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="GROUPS_HANA_USER"/>
+        <keyMapping columnObjectName="Aggregation_1" columnName="GROUPS_HANA_USER"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape expanded="false" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="253" y="87"/>
+        <rectangleSize height="0" width="0"/>
+      </shape>
+      <shape expanded="false" modelObjectName="P_USERS" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="22" y="287"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="false" modelObjectName="P_GROUPS" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="330" y="287"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="false" modelObjectName="P_RESTRICTED" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="253" y="347"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="false" modelObjectName="P_PUBLIC" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="484" y="287"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="false" modelObjectName="P_CORE_USERS_1" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="99" y="347"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="false" modelObjectName="J_RESTRICTED" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="176" y="287"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="false" modelObjectName="Union_1" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="253" y="207"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="false" modelObjectName="Aggregation_1" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="253" y="147"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

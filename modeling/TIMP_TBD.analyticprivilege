@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Privilege:analyticPrivilege xmlns:Privilege="http://www.sap.com/ndb/BiModelPrivilege.ecore" schemaVersion="1.1" id="TIMP_TBD" privilegeType="ANALYTIC_PRIVILEGE">
+  <origin/>
+  <descriptions defaultDescription="TIMP_TBD"/>
+  <metadata changedAt="2017-09-12 21:52:29.775" createdAt="2017-09-12 21:52:29.775"/>
+  <securedModels>
+    <modelUri>/timp.tbd.modeling/calculationviews/CV_DOCUMENT_APPROVAL</modelUri>
+    <modelUri>/timp.tbd.modeling/calculationviews/CV_FILES_STORAGE_FILTERED</modelUri>
+    <modelUri>/timp.tbd.modeling/calculationviews/CV_FILE_STORAGE</modelUri>
+    <modelUri>/timp.tbd.modeling/calculationviews/CV_FILE_STORAGE_GROUPS</modelUri>
+    <modelUri>/timp.tbd.modeling/calculationviews/CV_FILE_STORAGE_USERS</modelUri>
+    <modelUri>/timp.tbd.modeling/calculationviews/CV_KEY_FIELDS</modelUri>
+    <modelUri>/timp.tbd.modeling/calculationviews/CV_STORAGE_LOCATION</modelUri>
+  </securedModels>
+</Privilege:analyticPrivilege>

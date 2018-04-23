@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:AccessControl="http://www.sap.com/ndb/SQLCoreModelAccessControl.ecore" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="CV_DOCUMENT_APPROVAL" applyPrivilegeType="ANALYTIC_PRIVILEGE" cacheEnabled="true" checkAnalyticPrivileges="true" defaultClient="crossClient" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="TREE_BASED" dataCategory="DEFAULT" enforceSqlExecution="true" executionSemantic="UNDEFINED" outputViewType="Projection">
+  <origin/>
+  <descriptions defaultDescription="CV_DOCUMENT_APPROVAL"/>
+  <metadata changedAt="2017-11-13 15:21:56.144"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="40"/>
+  <dataSources>
+    <DataSource id="TBD::DocumentApproval" type="DATA_BASE_TABLE">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="TIMP" columnObjectName="TBD::DocumentApproval"/>
+    </DataSource>
+    <DataSource id="TBD::FileStorage" type="DATA_BASE_TABLE">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="TIMP" columnObjectName="TBD::FileStorage"/>
+    </DataSource>
+  </dataSources>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:ProjectionView" id="P_DOCUMENT_APPROVAL">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="DOCUMENT_TYPE_ID"/>
+        <viewAttribute id="APPROVAL_DATE"/>
+        <viewAttribute id="COMMENTS"/>
+        <viewAttribute id="STATUS"/>
+        <viewAttribute id="FILE_STORED_ID"/>
+        <viewAttribute id="ID"/>
+        <viewAttribute id="IS_DELETED">
+          <filter xsi:type="AccessControl:SingleValueFilter" including="false" value="1"/>
+        </viewAttribute>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#TBD::DocumentApproval">
+        <mapping xsi:type="Calculation:AttributeMapping" target="DOCUMENT_TYPE_ID" source="DOCUMENT_TYPE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="APPROVAL_DATE" source="APPROVAL_DATE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="COMMENTS" source="COMMENTS"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STATUS" source="STATUS"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="FILE_STORED_ID" source="FILE_STORED_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IS_DELETED" source="IS_DELETED"/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:ProjectionView" id="P_FILE_STORAGE">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="DOCUMENT_TYPE_ID"/>
+        <viewAttribute id="ID_FILE_STORAGE"/>
+        <viewAttribute id="IS_DELETED">
+          <filter xsi:type="AccessControl:SingleValueFilter" including="false" value="1"/>
+        </viewAttribute>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#TBD::FileStorage">
+        <mapping xsi:type="Calculation:AttributeMapping" target="DOCUMENT_TYPE_ID" source="DOCUMENT_TYPE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_FILE_STORAGE" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IS_DELETED" source="IS_DELETED"/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:JoinView" id="J_APPROVAL_STORAGE" joinType="inner">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="STATUS"/>
+        <viewAttribute id="APPROVAL_DATE"/>
+        <viewAttribute id="COMMENTS"/>
+        <viewAttribute id="DOCUMENT_TYPE_ID"/>
+        <viewAttribute id="FILE_STORED_ID"/>
+        <viewAttribute id="ID"/>
+        <viewAttribute hidden="true" id="JOIN$ID_FILE_STORAGE$FILE_STORED_ID"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#P_FILE_STORAGE">
+        <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$ID_FILE_STORAGE$FILE_STORED_ID" source="ID_FILE_STORAGE"/>
+      </input>
+      <input node="#P_DOCUMENT_APPROVAL">
+        <mapping xsi:type="Calculation:AttributeMapping" target="STATUS" source="STATUS"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="APPROVAL_DATE" source="APPROVAL_DATE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="COMMENTS" source="COMMENTS"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DOCUMENT_TYPE_ID" source="DOCUMENT_TYPE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="FILE_STORED_ID" source="FILE_STORED_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$ID_FILE_STORAGE$FILE_STORED_ID" source="FILE_STORED_ID"/>
+      </input>
+      <joinAttribute name="JOIN$ID_FILE_STORAGE$FILE_STORED_ID"/>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="J_APPROVAL_STORAGE">
+    <descriptions/>
+    <attributes>
+      <attribute id="DOCUMENT_TYPE_ID" order="1" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="DOCUMENT_TYPE_ID"/>
+        <keyMapping columnObjectName="J_APPROVAL_STORAGE" columnName="DOCUMENT_TYPE_ID"/>
+      </attribute>
+      <attribute id="FILE_STORED_ID" order="2" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="FILE_STORED_ID"/>
+        <keyMapping columnObjectName="J_APPROVAL_STORAGE" columnName="FILE_STORED_ID"/>
+      </attribute>
+      <attribute id="COMMENTS" order="3" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="COMMENTS"/>
+        <keyMapping columnObjectName="J_APPROVAL_STORAGE" columnName="COMMENTS"/>
+      </attribute>
+      <attribute id="APPROVAL_DATE" order="4" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="APPROVAL_DATE"/>
+        <keyMapping columnObjectName="J_APPROVAL_STORAGE" columnName="APPROVAL_DATE"/>
+      </attribute>
+      <attribute id="STATUS" order="5" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="STATUS"/>
+        <keyMapping columnObjectName="J_APPROVAL_STORAGE" columnName="STATUS"/>
+      </attribute>
+      <attribute id="ID" order="6" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="ID"/>
+        <keyMapping columnObjectName="J_APPROVAL_STORAGE" columnName="ID"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="99" y="87"/>
+        <rectangleSize height="0" width="0"/>
+      </shape>
+      <shape expanded="true" modelObjectName="P_DOCUMENT_APPROVAL" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="176" y="261"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="true" modelObjectName="P_FILE_STORAGE" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="22" y="261"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="true" modelObjectName="J_APPROVAL_STORAGE" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="99" y="165"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

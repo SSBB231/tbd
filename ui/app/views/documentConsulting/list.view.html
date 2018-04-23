@@ -1,0 +1,46 @@
+<template data-controller-name="app.controllers.documentConsulting.list">
+	<div id="container">
+		<div class="toolbar"></div>
+		<div class="library-filters">
+			<div id="search-container" class="search-input"></div>
+			<button id="advanced-filters-btn" class="btn trans filter-item" style="vertical-align: top; margin-right: 13px;">
+				<span class="button-icon icon-font-Sign-and-Symbols icon-collapsedown"></span>
+				<span>{{i18n 'ADVANCED FILTERS'}}</span>
+			</button>
+			<button id="resetButton" class="btn trans filter-item" style="vertical-align: top; margin-right: 13px;">
+				<span class="button-icon icon-font-Time-and-Date icon-reviewback"></span>
+				<span>{{i18n 'RESET FILTERS'}}</span>
+			</button>
+		</div>
+		<div id="advanced-filters" class="library-advanced-filters-container">
+			<div class="first-line">
+				<div id="companyFilter" class="library-advanced-filter-item"></div>
+				<div id="ufFilter" class="library-advanced-filter-item"></div>
+				<div id="branchFilter" class="library-advanced-filter-item"></div>
+			</div>
+			<div class="second-line">
+				<div id="taxFilter" class="library-advanced-filter-item"></div>
+				<div id="docIdFilter" class="library-advanced-filter-item"></div>
+				<div id="filesFilter" class="library-advanced-filter-item"></div>
+			</div>
+			<div class="second-line">
+				<div id="statusFilter" class="library-advanced-filter-item"></div>
+				<div id="classificationFilter" class="library-advanced-filter-item"></div>
+				<div id="originComponentFilter" class="library-advanced-filter-item"></div>
+			</div>
+			<div class="second-line">
+				<div id="structureFilter" class="library-advanced-filter-item"></div>
+				<div id="keyFieldsFilter" class="library-advanced-filter-item"></div>
+				<div id="keyField1" class="library-advanced-filter-item"></div>
+			</div>
+			<div class="second-line">
+				<div id="keyField2" class="library-advanced-filter-item"></div>
+				<div id="creationUserFilter" class="library-advanced-filter-item"></div>
+				<div id="modificationUserFilter" class="library-advanced-filter-item"></div>
+			</div>
+		</div>
+		<div id="content-list">
+			<div id="table" class="consulting-table"></div>
+		</div>
+	</div>
+</template>

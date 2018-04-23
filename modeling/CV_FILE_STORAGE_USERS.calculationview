@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:AccessControl="http://www.sap.com/ndb/SQLCoreModelAccessControl.ecore" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="CV_FILE_STORAGE_USERS" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="crossClient" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="TREE_BASED" dataCategory="DIMENSION" enforceSqlExecution="true" executionSemantic="UNDEFINED" outputViewType="Projection">
+  <origin/>
+  <descriptions defaultDescription="CV_FILE_STORAGE_USERS"/>
+  <metadata changedAt="2017-12-05 08:50:00.315"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="42"/>
+  <dataSources>
+    <DataSource id="TBD::FileStorageUsers" type="DATA_BASE_TABLE">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="TIMP" columnObjectName="TBD::FileStorageUsers"/>
+    </DataSource>
+    <DataSource id="TBD::FileStorage" type="DATA_BASE_TABLE">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="TIMP" columnObjectName="TBD::FileStorage"/>
+    </DataSource>
+    <DataSource id="CORE::USER" type="DATA_BASE_TABLE">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="TIMP" columnObjectName="CORE::USER"/>
+    </DataSource>
+  </dataSources>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:ProjectionView" id="P_FILE_STORAGE_USERS">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="ID_TABLE"/>
+        <viewAttribute id="ID_CONFIGURATION"/>
+        <viewAttribute id="ID_USER"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#TBD::FileStorageUsers">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_TABLE" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_CONFIGURATION" source="ID_CONFIGURATION"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_USER" source="ID_USER"/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:ProjectionView" id="P_FILE_STORAGE">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="FILE_ID"/>
+        <viewAttribute id="IS_DELETED">
+          <filter xsi:type="AccessControl:SingleValueFilter" including="false" value="1"/>
+        </viewAttribute>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#TBD::FileStorage">
+        <mapping xsi:type="Calculation:AttributeMapping" target="FILE_ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IS_DELETED" source="IS_DELETED"/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:ProjectionView" id="P_USERS">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="ID"/>
+        <viewAttribute id="USER_HANA_USER"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#CORE::USER">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="USER_HANA_USER" source="HANA_USER"/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:JoinView" id="J_FILE_USER" joinType="inner">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="ID_USER"/>
+        <viewAttribute id="ID_CONFIGURATION"/>
+        <viewAttribute id="ID_TABLE"/>
+        <viewAttribute id="USER_HANA_USER"/>
+        <viewAttribute hidden="true" id="JOIN$ID$ID_USER"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#P_USERS">
+        <mapping xsi:type="Calculation:AttributeMapping" target="USER_HANA_USER" source="USER_HANA_USER"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$ID$ID_USER" source="ID"/>
+      </input>
+      <input node="#P_FILE_STORAGE_USERS">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_USER" source="ID_USER"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_CONFIGURATION" source="ID_CONFIGURATION"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_TABLE" source="ID_TABLE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$ID$ID_USER" source="ID_USER"/>
+      </input>
+      <joinAttribute name="JOIN$ID$ID_USER"/>
+    </calculationView>
+    <calculationView xsi:type="Calculation:JoinView" id="J_FILE" joinType="inner">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="FILE_ID"/>
+        <viewAttribute id="ID_USER"/>
+        <viewAttribute id="USER_HANA_USER"/>
+        <viewAttribute id="ID_TABLE"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#P_FILE_STORAGE">
+        <mapping xsi:type="Calculation:AttributeMapping" target="FILE_ID" source="FILE_ID"/>
+      </input>
+      <input node="#J_FILE_USER">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_USER" source="ID_USER"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="USER_HANA_USER" source="USER_HANA_USER"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_TABLE" source="ID_TABLE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="FILE_ID" source="ID_CONFIGURATION"/>
+      </input>
+      <joinAttribute name="FILE_ID"/>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="J_FILE">
+    <descriptions/>
+    <attributes>
+      <attribute id="FILE_ID" order="1" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="FILE_ID"/>
+        <keyMapping columnObjectName="J_FILE" columnName="FILE_ID"/>
+      </attribute>
+      <attribute id="ID_USER" order="2" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="ID_USER"/>
+        <keyMapping columnObjectName="J_FILE" columnName="ID_USER"/>
+      </attribute>
+      <attribute id="USER_HANA_USER" order="3" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="USER_HANA_USER"/>
+        <keyMapping columnObjectName="J_FILE" columnName="USER_HANA_USER"/>
+      </attribute>
+      <attribute id="ID_TABLE" order="4" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="ID_TABLE"/>
+        <keyMapping columnObjectName="J_FILE" columnName="ID_TABLE"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="99" y="87"/>
+        <rectangleSize height="0" width="0"/>
+      </shape>
+      <shape expanded="true" modelObjectName="P_FILE_STORAGE_USERS" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="253" y="357"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="true" modelObjectName="P_FILE_STORAGE" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="22" y="261"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="true" modelObjectName="P_USERS" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="99" y="357"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="true" modelObjectName="J_FILE_USER" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="176" y="261"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="true" modelObjectName="J_FILE" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="99" y="165"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

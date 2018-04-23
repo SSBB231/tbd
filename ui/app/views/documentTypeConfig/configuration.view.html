@@ -1,0 +1,36 @@
+<template data-controller-name="app.controllers.documentTypeConfig.configuration">
+    <div class="forms-wrapper">
+        <div class="form-columns one-column">
+            <div class="form-title">{{i18n 'GENERAL INFORMATION'}}</div>
+            <div class="mandatory">
+                <span>* {{i18n 'MANDATORY FIELD'}}</span>
+            </div>
+            <div class="column full">
+                <div class="row not-full">
+                    <div class="label">{{i18n 'DOCUMENT TYPE'}}</div>
+                    <div class="element" id="docType"></div>
+                </div>
+                <div class="row not-full">
+                    <div class="label">{{i18n 'DESCRIPTION'}}</div>
+                    <div class="element" id="description"></div>
+                </div>
+                <div class="row not-full">
+                    <div class="label">{{i18n 'NUMBER RANGE'}}</div>
+                    <div class="element" id="numberRange"></div>
+                </div>
+                <div class="row not-full">
+                    <div class="label">{{i18n 'STATUS'}}</div>
+                    <div class="element" id="status"></div>
+                </div>
+                <div class="row not-full">
+                    <div class="label">{{i18n 'VALID FROM'}}</div>
+                    <div class="element" id="validFrom"></div>
+                </div>
+                <div class="row not-full">
+                    <div class="label">{{i18n 'VALID TO'}}</div>
+                    <div class="element" id="validTo"></div>
+                </div>
+            </div>    
+        </div>
+    </div>
+</template>

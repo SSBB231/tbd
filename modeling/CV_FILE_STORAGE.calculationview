@@ -1,0 +1,654 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:AccessControl="http://www.sap.com/ndb/SQLCoreModelAccessControl.ecore" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="CV_FILE_STORAGE" applyPrivilegeType="ANALYTIC_PRIVILEGE" cacheEnabled="true" checkAnalyticPrivileges="true" defaultClient="crossClient" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="TREE_BASED" dataCategory="DIMENSION" enforceSqlExecution="true" executionSemantic="UNDEFINED" outputViewType="Aggregation">
+  <origin/>
+  <descriptions defaultDescription="CV_FILE_STORAGE"/>
+  <metadata changedAt="2018-01-08 14:29:13.058"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="47"/>
+  <dataSources>
+    <DataSource id="TBD::FileStorage" type="DATA_BASE_TABLE">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="TIMP" columnObjectName="TBD::FileStorage"/>
+    </DataSource>
+    <DataSource id="TBD::FileStorageEEF" type="DATA_BASE_TABLE">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="TIMP" columnObjectName="TBD::FileStorageEEF"/>
+    </DataSource>
+    <DataSource id="TBD::FileStorageTax" type="DATA_BASE_TABLE">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="TIMP" columnObjectName="TBD::FileStorageTax"/>
+    </DataSource>
+    <DataSource id="ATR::Tributo" type="DATA_BASE_TABLE">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="TIMP" columnObjectName="ATR::Tributo"/>
+    </DataSource>
+    <DataSource id="CORE::USER" type="DATA_BASE_TABLE">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="TIMP" columnObjectName="CORE::USER"/>
+    </DataSource>
+    <DataSource id="P_MODIFICATION_USER$$$$CORE::USER$$" type="DATA_BASE_TABLE">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="TIMP" columnObjectName="CORE::USER"/>
+    </DataSource>
+    <DataSource id="TBD::DocumentApproval" type="DATA_BASE_TABLE">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="TIMP" columnObjectName="TBD::DocumentApproval"/>
+    </DataSource>
+  </dataSources>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:ProjectionView" id="P_FILE_STORAGE">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="ID"/>
+        <viewAttribute id="FILE_NAME"/>
+        <viewAttribute id="IMAGE_URL"/>
+        <viewAttribute id="KEY_FIELD_1"/>
+        <viewAttribute id="KEY_FIELD_2"/>
+        <viewAttribute id="STATUS"/>
+        <viewAttribute id="DOCUMENT_TYPE_ID"/>
+        <viewAttribute id="CREATION_DATE"/>
+        <viewAttribute id="CREATION_ID_USER"/>
+        <viewAttribute id="MODIFICATION_DATE"/>
+        <viewAttribute id="MODIFICATION_ID_USER"/>
+        <viewAttribute id="IS_DELETED">
+          <filter xsi:type="AccessControl:SingleValueFilter" including="false" value="1"/>
+        </viewAttribute>
+        <viewAttribute id="STORAGE_VALID_FROM"/>
+        <viewAttribute id="STORAGE_VALID_TO"/>
+        <viewAttribute id="STORAGE_CLASSIFICATION"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#TBD::FileStorage">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="FILE_NAME" source="FILE_NAME"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IMAGE_URL" source="IMAGE_URL"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="KEY_FIELD_1" source="KEY_FIELD_1"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="KEY_FIELD_2" source="KEY_FIELD_2"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STATUS" source="STATUS"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DOCUMENT_TYPE_ID" source="DOCUMENT_TYPE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CREATION_DATE" source="CREATION.DATE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CREATION_ID_USER" source="CREATION.ID_USER"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="MODIFICATION_DATE" source="MODIFICATION.DATE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="MODIFICATION_ID_USER" source="MODIFICATION.ID_USER"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IS_DELETED" source="IS_DELETED"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STORAGE_VALID_FROM" source="VALID_FROM"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STORAGE_VALID_TO" source="VALID_TO"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STORAGE_CLASSIFICATION" source="SECURITY_CLASSIFICATION"/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:ProjectionView" id="P_EEF">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="ID_CONFIGURATION"/>
+        <viewAttribute id="ID"/>
+        <viewAttribute id="ID_COMPANY"/>
+        <viewAttribute id="UF"/>
+        <viewAttribute id="ID_BRANCH"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#TBD::FileStorageEEF">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_CONFIGURATION" source="ID_CONFIGURATION"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_COMPANY" source="ID_COMPANY"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="UF" source="UF"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_BRANCH" source="ID_BRANCH"/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:JoinView" id="J_STORAGE_UF" joinType="leftOuter">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="ID"/>
+        <viewAttribute id="FILE_NAME"/>
+        <viewAttribute id="IMAGE_URL"/>
+        <viewAttribute id="KEY_FIELD_1"/>
+        <viewAttribute id="KEY_FIELD_2"/>
+        <viewAttribute id="STATUS"/>
+        <viewAttribute id="DOCUMENT_TYPE_ID"/>
+        <viewAttribute id="CREATION_DATE"/>
+        <viewAttribute id="CREATION_ID_USER"/>
+        <viewAttribute id="MODIFICATION_DATE"/>
+        <viewAttribute id="MODIFICATION_ID_USER"/>
+        <viewAttribute id="ID_COMPANY"/>
+        <viewAttribute id="ID_BRANCH"/>
+        <viewAttribute id="UF"/>
+        <viewAttribute id="STORAGE_VALID_FROM"/>
+        <viewAttribute id="STORAGE_VALID_TO"/>
+        <viewAttribute id="STORAGE_CLASSIFICATION"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#P_FILE_STORAGE">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="FILE_NAME" source="FILE_NAME"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IMAGE_URL" source="IMAGE_URL"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="KEY_FIELD_1" source="KEY_FIELD_1"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="KEY_FIELD_2" source="KEY_FIELD_2"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STATUS" source="STATUS"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DOCUMENT_TYPE_ID" source="DOCUMENT_TYPE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CREATION_DATE" source="CREATION_DATE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CREATION_ID_USER" source="CREATION_ID_USER"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="MODIFICATION_DATE" source="MODIFICATION_DATE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="MODIFICATION_ID_USER" source="MODIFICATION_ID_USER"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STORAGE_VALID_FROM" source="STORAGE_VALID_FROM"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STORAGE_VALID_TO" source="STORAGE_VALID_TO"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STORAGE_CLASSIFICATION" source="STORAGE_CLASSIFICATION"/>
+      </input>
+      <input node="#P_EEF">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_COMPANY" source="ID_COMPANY"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_BRANCH" source="ID_BRANCH"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="UF" source="UF"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID_CONFIGURATION"/>
+      </input>
+      <joinAttribute name="ID"/>
+    </calculationView>
+    <calculationView xsi:type="Calculation:ProjectionView" id="P_TAX">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="ID_CONFIGURATION"/>
+        <viewAttribute id="TAX"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#TBD::FileStorageTax">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_CONFIGURATION" source="ID_CONFIGURATION"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="TAX" source="TAX"/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:JoinView" id="J_STORAGE_TAX" joinType="inner">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="TAX"/>
+        <viewAttribute id="ID"/>
+        <viewAttribute id="FILE_NAME"/>
+        <viewAttribute id="IMAGE_URL"/>
+        <viewAttribute id="KEY_FIELD_1"/>
+        <viewAttribute id="KEY_FIELD_2"/>
+        <viewAttribute id="STATUS"/>
+        <viewAttribute id="DOCUMENT_TYPE_ID"/>
+        <viewAttribute id="CREATION_DATE"/>
+        <viewAttribute id="CREATION_ID_USER"/>
+        <viewAttribute id="MODIFICATION_DATE"/>
+        <viewAttribute id="MODIFICATION_ID_USER"/>
+        <viewAttribute id="ID_COMPANY"/>
+        <viewAttribute id="ID_BRANCH"/>
+        <viewAttribute id="UF"/>
+        <viewAttribute id="STORAGE_VALID_FROM"/>
+        <viewAttribute id="STORAGE_VALID_TO"/>
+        <viewAttribute id="STORAGE_CLASSIFICATION"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#J_STORAGE_UF">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="FILE_NAME" source="FILE_NAME"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IMAGE_URL" source="IMAGE_URL"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="KEY_FIELD_1" source="KEY_FIELD_1"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="KEY_FIELD_2" source="KEY_FIELD_2"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STATUS" source="STATUS"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DOCUMENT_TYPE_ID" source="DOCUMENT_TYPE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CREATION_DATE" source="CREATION_DATE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CREATION_ID_USER" source="CREATION_ID_USER"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="MODIFICATION_DATE" source="MODIFICATION_DATE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="MODIFICATION_ID_USER" source="MODIFICATION_ID_USER"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_COMPANY" source="ID_COMPANY"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_BRANCH" source="ID_BRANCH"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="UF" source="UF"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STORAGE_VALID_FROM" source="STORAGE_VALID_FROM"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STORAGE_VALID_TO" source="STORAGE_VALID_TO"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STORAGE_CLASSIFICATION" source="STORAGE_CLASSIFICATION"/>
+      </input>
+      <input node="#P_TAX">
+        <mapping xsi:type="Calculation:AttributeMapping" target="TAX" source="TAX"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID_CONFIGURATION"/>
+      </input>
+      <joinAttribute name="ID"/>
+    </calculationView>
+    <calculationView xsi:type="Calculation:ProjectionView" id="P_TRIBUTO">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="DESCR_COD_TRIBUTO_LABEL"/>
+        <viewAttribute id="COD_TRIBUTO"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#ATR::Tributo">
+        <mapping xsi:type="Calculation:AttributeMapping" target="DESCR_COD_TRIBUTO_LABEL" source="DESCR_COD_TRIBUTO_LABEL"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="COD_TRIBUTO" source="COD_TRIBUTO"/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:JoinView" id="J_TAX_TRIBUTO" joinType="inner">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="TAX_LABEL"/>
+        <viewAttribute id="TAX"/>
+        <viewAttribute id="ID"/>
+        <viewAttribute id="FILE_NAME"/>
+        <viewAttribute id="IMAGE_URL"/>
+        <viewAttribute id="KEY_FIELD_1"/>
+        <viewAttribute id="KEY_FIELD_2"/>
+        <viewAttribute id="STATUS"/>
+        <viewAttribute id="DOCUMENT_TYPE_ID"/>
+        <viewAttribute id="CREATION_DATE"/>
+        <viewAttribute id="CREATION_ID_USER"/>
+        <viewAttribute id="MODIFICATION_DATE"/>
+        <viewAttribute id="MODIFICATION_ID_USER"/>
+        <viewAttribute id="ID_COMPANY"/>
+        <viewAttribute id="ID_BRANCH"/>
+        <viewAttribute id="UF"/>
+        <viewAttribute id="STORAGE_VALID_FROM"/>
+        <viewAttribute id="STORAGE_VALID_TO"/>
+        <viewAttribute id="STORAGE_CLASSIFICATION"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#J_STORAGE_TAX">
+        <mapping xsi:type="Calculation:AttributeMapping" target="TAX" source="TAX"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="FILE_NAME" source="FILE_NAME"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IMAGE_URL" source="IMAGE_URL"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="KEY_FIELD_1" source="KEY_FIELD_1"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="KEY_FIELD_2" source="KEY_FIELD_2"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STATUS" source="STATUS"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DOCUMENT_TYPE_ID" source="DOCUMENT_TYPE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CREATION_DATE" source="CREATION_DATE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CREATION_ID_USER" source="CREATION_ID_USER"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="MODIFICATION_DATE" source="MODIFICATION_DATE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="MODIFICATION_ID_USER" source="MODIFICATION_ID_USER"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_COMPANY" source="ID_COMPANY"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_BRANCH" source="ID_BRANCH"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="UF" source="UF"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STORAGE_VALID_FROM" source="STORAGE_VALID_FROM"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STORAGE_VALID_TO" source="STORAGE_VALID_TO"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STORAGE_CLASSIFICATION" source="STORAGE_CLASSIFICATION"/>
+      </input>
+      <input node="#P_TRIBUTO">
+        <mapping xsi:type="Calculation:AttributeMapping" target="TAX_LABEL" source="DESCR_COD_TRIBUTO_LABEL"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="TAX" source="COD_TRIBUTO"/>
+      </input>
+      <joinAttribute name="TAX"/>
+    </calculationView>
+    <calculationView xsi:type="Calculation:ProjectionView" id="CREATION_USER">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="ID"/>
+        <viewAttribute id="NAME"/>
+        <viewAttribute id="LAST_NAME"/>
+      </viewAttributes>
+      <calculatedViewAttributes>
+        <calculatedViewAttribute datatype="NVARCHAR" id="CREATION_USERNAME" length="255" expressionLanguage="COLUMN_ENGINE">
+          <formula>&quot;NAME&quot; + ' ' + &quot;LAST_NAME&quot;</formula>
+        </calculatedViewAttribute>
+      </calculatedViewAttributes>
+      <input node="#CORE::USER">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="NAME" source="NAME"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LAST_NAME" source="LAST_NAME"/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:ProjectionView" id="P_MODIFICATION_USER">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="ID"/>
+        <viewAttribute id="NAME"/>
+        <viewAttribute id="LAST_NAME"/>
+      </viewAttributes>
+      <calculatedViewAttributes>
+        <calculatedViewAttribute datatype="NVARCHAR" id="MODIFICATION_USERNAME" length="255" expressionLanguage="COLUMN_ENGINE">
+          <formula>&quot;NAME&quot; + ' '  + &quot;LAST_NAME&quot;</formula>
+        </calculatedViewAttribute>
+      </calculatedViewAttributes>
+      <input node="#P_MODIFICATION_USER$$$$CORE::USER$$">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="NAME" source="NAME"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LAST_NAME" source="LAST_NAME"/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:JoinView" id="J_FILE_USER" joinType="inner">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="TAX"/>
+        <viewAttribute id="CREATION_USERNAME"/>
+        <viewAttribute id="TAX_LABEL"/>
+        <viewAttribute id="ID"/>
+        <viewAttribute id="FILE_NAME"/>
+        <viewAttribute id="IMAGE_URL"/>
+        <viewAttribute id="KEY_FIELD_1"/>
+        <viewAttribute id="KEY_FIELD_2"/>
+        <viewAttribute id="STATUS"/>
+        <viewAttribute id="DOCUMENT_TYPE_ID"/>
+        <viewAttribute id="CREATION_DATE"/>
+        <viewAttribute id="CREATION_ID_USER"/>
+        <viewAttribute id="MODIFICATION_DATE"/>
+        <viewAttribute id="MODIFICATION_ID_USER"/>
+        <viewAttribute id="ID_COMPANY"/>
+        <viewAttribute id="ID_BRANCH"/>
+        <viewAttribute id="UF"/>
+        <viewAttribute id="STORAGE_VALID_FROM"/>
+        <viewAttribute id="STORAGE_VALID_TO"/>
+        <viewAttribute id="STORAGE_CLASSIFICATION"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#J_TAX_TRIBUTO">
+        <mapping xsi:type="Calculation:AttributeMapping" target="TAX" source="TAX"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="TAX_LABEL" source="TAX_LABEL"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="FILE_NAME" source="FILE_NAME"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IMAGE_URL" source="IMAGE_URL"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="KEY_FIELD_1" source="KEY_FIELD_1"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="KEY_FIELD_2" source="KEY_FIELD_2"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STATUS" source="STATUS"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DOCUMENT_TYPE_ID" source="DOCUMENT_TYPE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CREATION_DATE" source="CREATION_DATE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CREATION_ID_USER" source="CREATION_ID_USER"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="MODIFICATION_DATE" source="MODIFICATION_DATE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="MODIFICATION_ID_USER" source="MODIFICATION_ID_USER"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_COMPANY" source="ID_COMPANY"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_BRANCH" source="ID_BRANCH"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="UF" source="UF"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STORAGE_VALID_FROM" source="STORAGE_VALID_FROM"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STORAGE_VALID_TO" source="STORAGE_VALID_TO"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STORAGE_CLASSIFICATION" source="STORAGE_CLASSIFICATION"/>
+      </input>
+      <input node="#CREATION_USER">
+        <mapping xsi:type="Calculation:AttributeMapping" target="CREATION_USERNAME" source="CREATION_USERNAME"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CREATION_ID_USER" source="ID"/>
+      </input>
+      <joinAttribute name="CREATION_ID_USER"/>
+    </calculationView>
+    <calculationView xsi:type="Calculation:JoinView" id="J_MODIFICATION_USER" joinType="inner">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="TAX"/>
+        <viewAttribute id="CREATION_USERNAME"/>
+        <viewAttribute id="TAX_LABEL"/>
+        <viewAttribute id="MODIFICATION_USERNAME"/>
+        <viewAttribute id="ID"/>
+        <viewAttribute id="FILE_NAME"/>
+        <viewAttribute id="IMAGE_URL"/>
+        <viewAttribute id="KEY_FIELD_1"/>
+        <viewAttribute id="KEY_FIELD_2"/>
+        <viewAttribute id="STATUS"/>
+        <viewAttribute id="DOCUMENT_TYPE_ID"/>
+        <viewAttribute id="CREATION_DATE"/>
+        <viewAttribute id="CREATION_ID_USER"/>
+        <viewAttribute id="MODIFICATION_DATE"/>
+        <viewAttribute id="MODIFICATION_ID_USER"/>
+        <viewAttribute id="ID_COMPANY"/>
+        <viewAttribute id="ID_BRANCH"/>
+        <viewAttribute id="UF"/>
+        <viewAttribute id="STORAGE_VALID_FROM"/>
+        <viewAttribute id="STORAGE_VALID_TO"/>
+        <viewAttribute id="STORAGE_CLASSIFICATION"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#J_FILE_USER">
+        <mapping xsi:type="Calculation:AttributeMapping" target="TAX" source="TAX"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CREATION_USERNAME" source="CREATION_USERNAME"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="TAX_LABEL" source="TAX_LABEL"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="FILE_NAME" source="FILE_NAME"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IMAGE_URL" source="IMAGE_URL"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="KEY_FIELD_1" source="KEY_FIELD_1"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="KEY_FIELD_2" source="KEY_FIELD_2"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STATUS" source="STATUS"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DOCUMENT_TYPE_ID" source="DOCUMENT_TYPE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CREATION_DATE" source="CREATION_DATE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CREATION_ID_USER" source="CREATION_ID_USER"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="MODIFICATION_DATE" source="MODIFICATION_DATE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="MODIFICATION_ID_USER" source="MODIFICATION_ID_USER"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_COMPANY" source="ID_COMPANY"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_BRANCH" source="ID_BRANCH"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="UF" source="UF"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STORAGE_VALID_FROM" source="STORAGE_VALID_FROM"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STORAGE_VALID_TO" source="STORAGE_VALID_TO"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STORAGE_CLASSIFICATION" source="STORAGE_CLASSIFICATION"/>
+      </input>
+      <input node="#P_MODIFICATION_USER">
+        <mapping xsi:type="Calculation:AttributeMapping" target="MODIFICATION_USERNAME" source="MODIFICATION_USERNAME"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="MODIFICATION_ID_USER" source="ID"/>
+      </input>
+      <joinAttribute name="MODIFICATION_ID_USER"/>
+    </calculationView>
+    <calculationView xsi:type="Calculation:ProjectionView" id="P_DOC_APPROVAL">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="ID"/>
+        <viewAttribute id="FILE_STORED_ID"/>
+        <viewAttribute id="APPROVAL_DATE"/>
+        <viewAttribute id="COMMENTS"/>
+        <viewAttribute id="DOCUMENT_TYPE_ID"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#TBD::DocumentApproval">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="FILE_STORED_ID" source="FILE_STORED_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="APPROVAL_DATE" source="APPROVAL_DATE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="COMMENTS" source="COMMENTS"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DOCUMENT_TYPE_ID" source="DOCUMENT_TYPE_ID"/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:JoinView" id="J_FILE_APPROVAL" joinType="leftOuter">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="TAX"/>
+        <viewAttribute id="TAX_LABEL"/>
+        <viewAttribute id="MODIFICATION_USERNAME"/>
+        <viewAttribute id="CREATION_USERNAME"/>
+        <viewAttribute id="APPROVAL_DATE"/>
+        <viewAttribute id="COMMENTS"/>
+        <viewAttribute id="ID"/>
+        <viewAttribute id="FILE_NAME"/>
+        <viewAttribute id="IMAGE_URL"/>
+        <viewAttribute id="KEY_FIELD_1"/>
+        <viewAttribute id="KEY_FIELD_2"/>
+        <viewAttribute id="STATUS"/>
+        <viewAttribute id="DOCUMENT_TYPE_ID"/>
+        <viewAttribute id="CREATION_DATE"/>
+        <viewAttribute id="CREATION_ID_USER"/>
+        <viewAttribute id="MODIFICATION_DATE"/>
+        <viewAttribute id="MODIFICATION_ID_USER"/>
+        <viewAttribute id="ID_COMPANY"/>
+        <viewAttribute id="ID_BRANCH"/>
+        <viewAttribute id="UF"/>
+        <viewAttribute id="STORAGE_VALID_FROM"/>
+        <viewAttribute id="STORAGE_VALID_TO"/>
+        <viewAttribute id="STORAGE_CLASSIFICATION"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#J_MODIFICATION_USER">
+        <mapping xsi:type="Calculation:AttributeMapping" target="TAX" source="TAX"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="TAX_LABEL" source="TAX_LABEL"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="MODIFICATION_USERNAME" source="MODIFICATION_USERNAME"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CREATION_USERNAME" source="CREATION_USERNAME"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="FILE_NAME" source="FILE_NAME"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IMAGE_URL" source="IMAGE_URL"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="KEY_FIELD_1" source="KEY_FIELD_1"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="KEY_FIELD_2" source="KEY_FIELD_2"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STATUS" source="STATUS"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DOCUMENT_TYPE_ID" source="DOCUMENT_TYPE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CREATION_DATE" source="CREATION_DATE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CREATION_ID_USER" source="CREATION_ID_USER"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="MODIFICATION_DATE" source="MODIFICATION_DATE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="MODIFICATION_ID_USER" source="MODIFICATION_ID_USER"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_COMPANY" source="ID_COMPANY"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_BRANCH" source="ID_BRANCH"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="UF" source="UF"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STORAGE_VALID_FROM" source="STORAGE_VALID_FROM"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STORAGE_VALID_TO" source="STORAGE_VALID_TO"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STORAGE_CLASSIFICATION" source="STORAGE_CLASSIFICATION"/>
+      </input>
+      <input node="#P_DOC_APPROVAL">
+        <mapping xsi:type="Calculation:AttributeMapping" target="APPROVAL_DATE" source="APPROVAL_DATE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="COMMENTS" source="COMMENTS"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DOCUMENT_TYPE_ID" source="DOCUMENT_TYPE_ID"/>
+      </input>
+      <joinAttribute name="DOCUMENT_TYPE_ID"/>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="J_FILE_APPROVAL">
+    <descriptions/>
+    <attributes>
+      <attribute id="ID" order="1" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="ID"/>
+        <keyMapping columnObjectName="J_FILE_APPROVAL" columnName="ID"/>
+      </attribute>
+      <attribute id="FILE_NAME" order="2" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="FILE_NAME"/>
+        <keyMapping columnObjectName="J_FILE_APPROVAL" columnName="FILE_NAME"/>
+      </attribute>
+      <attribute id="IMAGE_URL" order="3" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="IMAGE_URL"/>
+        <keyMapping columnObjectName="J_FILE_APPROVAL" columnName="IMAGE_URL"/>
+      </attribute>
+      <attribute id="KEY_FIELD_1" order="4" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="KEY_FIELD_1"/>
+        <keyMapping columnObjectName="J_FILE_APPROVAL" columnName="KEY_FIELD_1"/>
+      </attribute>
+      <attribute id="KEY_FIELD_2" order="5" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="KEY_FIELD_2"/>
+        <keyMapping columnObjectName="J_FILE_APPROVAL" columnName="KEY_FIELD_2"/>
+      </attribute>
+      <attribute id="STATUS" order="6" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="STATUS"/>
+        <keyMapping columnObjectName="J_FILE_APPROVAL" columnName="STATUS"/>
+      </attribute>
+      <attribute id="DOCUMENT_TYPE_ID" order="7" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="DOCUMENT_TYPE_ID"/>
+        <keyMapping columnObjectName="J_FILE_APPROVAL" columnName="DOCUMENT_TYPE_ID"/>
+      </attribute>
+      <attribute id="CREATION_DATE" order="8" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="CREATION_DATE"/>
+        <keyMapping columnObjectName="J_FILE_APPROVAL" columnName="CREATION_DATE"/>
+      </attribute>
+      <attribute id="CREATION_ID_USER" order="9" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="CREATION_ID_USER"/>
+        <keyMapping columnObjectName="J_FILE_APPROVAL" columnName="CREATION_ID_USER"/>
+      </attribute>
+      <attribute id="MODIFICATION_DATE" order="10" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="MODIFICATION_DATE"/>
+        <keyMapping columnObjectName="J_FILE_APPROVAL" columnName="MODIFICATION_DATE"/>
+      </attribute>
+      <attribute id="MODIFICATION_ID_USER" order="11" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="MODIFICATION_ID_USER"/>
+        <keyMapping columnObjectName="J_FILE_APPROVAL" columnName="MODIFICATION_ID_USER"/>
+      </attribute>
+      <attribute id="ID_COMPANY" order="12" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="ID_COMPANY"/>
+        <keyMapping columnObjectName="J_FILE_APPROVAL" columnName="ID_COMPANY"/>
+      </attribute>
+      <attribute id="ID_BRANCH" order="13" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="ID_BRANCH"/>
+        <keyMapping columnObjectName="J_FILE_APPROVAL" columnName="ID_BRANCH"/>
+      </attribute>
+      <attribute id="UF" order="14" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="UF"/>
+        <keyMapping columnObjectName="J_FILE_APPROVAL" columnName="UF"/>
+      </attribute>
+      <attribute id="TAX" order="15" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="TAX"/>
+        <keyMapping columnObjectName="J_FILE_APPROVAL" columnName="TAX"/>
+      </attribute>
+      <attribute id="TAX_LABEL" order="16" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="TAX_LABEL"/>
+        <keyMapping columnObjectName="J_FILE_APPROVAL" columnName="TAX_LABEL"/>
+      </attribute>
+      <attribute id="MODIFICATION_USERNAME" order="17" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="MODIFICATION_USERNAME"/>
+        <keyMapping columnObjectName="J_FILE_APPROVAL" columnName="MODIFICATION_USERNAME"/>
+      </attribute>
+      <attribute id="CREATION_USERNAME" order="18" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="CREATION_USERNAME"/>
+        <keyMapping columnObjectName="J_FILE_APPROVAL" columnName="CREATION_USERNAME"/>
+      </attribute>
+      <attribute id="APPROVAL_DATE" order="19" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="APPROVAL_DATE"/>
+        <keyMapping columnObjectName="J_FILE_APPROVAL" columnName="APPROVAL_DATE"/>
+      </attribute>
+      <attribute id="COMMENTS" order="20" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="COMMENTS"/>
+        <keyMapping columnObjectName="J_FILE_APPROVAL" columnName="COMMENTS"/>
+      </attribute>
+      <attribute id="STORAGE_VALID_FROM" order="21" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="STORAGE_VALID_FROM"/>
+        <keyMapping columnObjectName="J_FILE_APPROVAL" columnName="STORAGE_VALID_FROM"/>
+      </attribute>
+      <attribute id="STORAGE_VALID_TO" order="22" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="STORAGE_VALID_TO"/>
+        <keyMapping columnObjectName="J_FILE_APPROVAL" columnName="STORAGE_VALID_TO"/>
+      </attribute>
+      <attribute id="STORAGE_CLASSIFICATION" order="23" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="STORAGE_CLASSIFICATION"/>
+        <keyMapping columnObjectName="J_FILE_APPROVAL" columnName="STORAGE_CLASSIFICATION"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape expanded="false" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="324" y="87"/>
+        <rectangleSize height="0" width="0"/>
+      </shape>
+      <shape expanded="false" modelObjectName="P_FILE_STORAGE" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="22" y="507"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="false" modelObjectName="P_EEF" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="176" y="507"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="false" modelObjectName="J_STORAGE_UF" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="99" y="447"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="false" modelObjectName="P_TAX" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="253" y="447"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="false" modelObjectName="J_STORAGE_TAX" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="175" y="387"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="false" modelObjectName="P_TRIBUTO" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="329" y="387"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="false" modelObjectName="J_TAX_TRIBUTO" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="250" y="327"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="false" modelObjectName="CREATION_USER" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="404" y="327"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="false" modelObjectName="P_MODIFICATION_USER" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="479" y="267"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="false" modelObjectName="J_FILE_USER" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="325" y="267"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="false" modelObjectName="J_MODIFICATION_USER" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="401" y="207"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="false" modelObjectName="P_DOC_APPROVAL" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="247" y="207"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="false" modelObjectName="J_FILE_APPROVAL" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="324" y="147"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

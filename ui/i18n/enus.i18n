@@ -1,0 +1,222 @@
+#GENERAL
+TBD TAB TITLE=Tax Business Documents
+COMPONENT NAME=Tax Business Documents
+INSUFFICIENT PRIVILEGES=Insufficient Privileges
+INVALID DATA=Invalid Data
+INVALID DATE=Invalid Date
+
+#LIBRARY
+CREATE=create 
+COMPANY=Company
+UF=State
+BRANCH=Branch
+TAX=Tribute
+TYPE TAX=Tribute Type
+EXECUTE=Execute
+EXECUTE APPROVAL=Execute Document Approval
+LIBRARY CONTENT ADVANCED FILTERS TOOLTIP=Click/Press to show/hide Advanced Filters
+TO SEARCH=Click/Press Enter to Search
+TO RESET FILTERS=Click/Press to reset Filters
+NOT FOUND=Not Found
+HIDE LEFT PANEL=show/hide Panel
+TO SELECT TAX=to select Tax
+CLICK PRESS TO CREATE=Click/Press Enter to create 
+CLICK PRESS TO HIDE LEFT PANEL=Click/Press Enter to show/hide panel
+
+#Toolbar labels
+SAVE=Save
+SAVE AND NEW=Save and New
+CANCEL=Cancel
+CLOSE=Close
+EDIT=Edit
+BACK=Back
+GO BACK=return
+VISUALIZATION=Display
+VISUALIZATION ACTION=Display
+INFO=Detail
+DATE=Date
+LIBRARY=Library
+CLEAR FILTERS=Clear Filters
+FILTER COMPANY=Filter Company
+FILTER BRANCH=Filter Branch
+FILTER UF=Filter UF
+FILTER TRIBUTE=Filter Tax
+FILTER DOCUMENT NUMBER=Filter Document Number
+FILTER DOCUMENT ID=Filter Document ID
+
+#General labels and popup titles
+TO VIEW=to view
+TO SELECT=to select
+GENERAL INFORMATION=General Information
+ID=ID
+NO=No
+YES=Yes
+MANDATORY FIELD=Required Field
+REQUIRED FIELDS=Required fields
+DELETE=Delete
+SUCCESS=Success
+AUTOMATIC ID=Automatic ID System
+ADVANCED FILTER=Advanced Filters
+OK=Ok
+DEFAULT=Default
+ALERT=Alert
+SUCCESS=Success
+ERROR=Error
+ERRORS=Errors
+BASIC DATA=Basic Data
+COMPLEMENTARY DATA=Additional Data
+ACCESS NOT ALLOWED=Acccess Not Allowed
+TO=to
+FILL IN=Fill in the
+FILL=Fill in
+SEARCH BOX TOOLTIP=Fill and Press Enter to filter by
+
+#General messages
+CONFIRM SAVE=Do you really want to save/edit?
+SAVE SUCCESS=Record Saved Successfully
+ERROR WHEN OBTAINING DATA=Unable To Retrieve Data
+REQUIRED FIELDS MSG=Please fill in the required fields
+SAVE FAILED=An error occurred while saving your data, try again
+COPY FAILED=An error occurred while trying to create copy
+SAVE SUCCEEDED=Record updated successfully!
+SAVE DIALOG=Want to update a record?
+SURE YOU WANT DELETE=Do you really want to delete?
+DELETED SUCCESFULLY=Registration deleted succesfully
+ERROR ON DELETING=There was an error while trying to delete. 
+ERROR LOADING LAYOUT=Error loading the selected layout
+ERROR LOADING SELECT CONTENT=An error occurred while trying to load the content of the lists
+INVALID UPDATE1=The following associations are blocking this operation: 
+INVALID UPDATE2=Please change the validity date of them.
+ERROR FIELDS MSG=Some fields don't have the correct data to be processed.
+
+#DOCUMENT TYPE CONFIGURATION
+DOCUMENT TYPE CONFIGURATION=Document Type Configuration
+DOCUMENT TYPE CONFIGURATION NEW=New Document Type Configuration
+DOCUMENT TYPE CONFIGURATION EDIT=Edit Document Type Configuration
+DOCUMENT TYPE CONFIGURATION VIEW=View Document Type Configuration
+DOCUMENT TYPE=Document Type
+DESCRIPTION=Description
+NUMBER RANGE=Number Range
+STATUS=Status
+CREATION=Creation
+PENDING=Pending
+APPROVED=Approved
+ARCHIVED=Archived
+VALIDITY=Validity
+VALID FROM=Valid From
+VALID TO=Valid To
+
+
+#DOCUMENT SECURITY
+DOCUMENT SECURITY=Document Security Classification
+DOCUMENT SECURITY EDIT=Edit Document Security Classification
+DOCUMENT SECURITY NEW=New Document Security Classification
+DOCUMENT SECURITY VIEW=View Document Security Classification
+DOCUMENT TYPE DESCRIPTION=Document Type Descricao
+CLASSIFICATION=Classification
+CLASSIFICATION CODE=Classification Code
+CLASSIFICATION DESCRIPTION=Classification Description
+FREE=Free
+RESTRICTED=Resctricted
+CONFIDENTIAL=Confidential
+
+#KEY FIELDS CONFIGURATION
+KEY FIELDS CONFIGURATION=Key Fields Configuration
+KEY FIELDS CONFIGURATION EDIT=Edit Key Fields Configuration
+KEY FIELDS CONFIGURATION NEW= New Key Fields Configuration
+KEY FIELDS CONFIGURATION VIEW=View Key Fields Configuration
+STRUCTURE=Structure
+KEYS=Key Fields
+KEYS LABEL=Keys
+ADD KEYS=Add Keys
+DELETE KEYS=Delete Keys
+COMPONENT ORIGIN=Component Origin
+ADD KEY FIELD TOOLTIP=Click/Press Enter to add Field
+DELETE KEY FIELD TOOLTIP=Click/Press Enter to delete Field
+
+#STORAGE LOCATION CONFIGURATION
+STORAGE LOCATION CONFIGURATION=Storage Location Configuration
+STORAGE LOCATION CONFIGURATION NEW=New Storage Location Configuration
+STORAGE LOCATION CONFIGURATION EDIT=Edit Storage Location Configuration
+STORAGE LOCATION CONFIGURATION VIEW=View Storage Location Configuration
+STORAGE LOCATION=Storage Location 
+LEVEL 1=Level 1
+LEVEL 2=Level 2
+LEVEL 3=Level 3
+LEVEL 4=Level 4
+LEVEL 5=Level 5
+LEVEL 6=Level 6
+LEVEL 7=Level 7
+LEVEL 8=Level 8
+LEVEL 9=Level 9
+LEVEL 10=Level 10
+LEVEL 11=Level 11
+NO DATA=No Data
+
+#DOCUMENT SCANNING
+DOCUMENT SCANNING=Document Scanning
+DOCUMENT SCANNING EDIT=Edit Document Scanning
+DOCUMENT SCANNING NEW=New Document Scanning
+DOCUMENT SCANNING VIEW=View Document Scanning
+
+#FILE STORAGE
+FILE STORAGE=File Storage
+FILE STORAGE EDIT=Edit File Storage
+FILE STORAGE NEW=New File Storage
+FILE STORAGE VIEW=View File Storage
+ADDRESS=Address
+KEY FIELD=Key Field
+SELECT BRANCH=Select Branch
+REGION=Region
+LINK=Link
+SELECT UF=Select UF
+UPLOAD FILE=Upload File
+TO2=to
+FILE=File
+FILE PREVIEW=File Preview
+USER GROUPS=User Workgroups
+USERNAME=Username
+CHOOSE ONE USER OR GROUP=Choose at least one user or one group to share this file with
+SHARE ONLY ON RESTRICTED=Sharing is only allowed on Restrited Classification
+SELECT COMPANY=to select Company
+UPLOAD FILE BTN TOOLTIP=Click/Press Enter to upload a File
+CLASSIFICATION BTN TOOLTIP=Click/Press Enter to view Classification 
+SHARE WITH USERS OR GROUPS=Restricted files must be shared with users or groups
+
+#DOCUMENT APPROVAL
+DOCUMENT APPROVAL=Document Approval
+DOCUMENT APPROVAL EDIT=Edit Document Approval
+DOCUMENT APPROVAL NEW=New Document Approval
+DOCUMENT APPROVAL VIEW=View Document Approval
+APPROVAL DATE=Approval Date
+COMMENTS=Comments
+NO LINK AVAILABLE=No link available
+APPROVAL OPTIONS=Approval Options
+STATUS UPDATED=Status updated successfully
+ERROR WHILE UPDATING STATUS=Error while updating the status
+FILE STORAGE STATUS=Status of File Stored
+APPROVAL STATUS=Status of Document Approval
+COPY=Copy
+
+#DOCUMENT CONSULTING
+DOCUMENT CONSULTING=Document Consulting
+DOCUMENT CONSULTING EDIT=Edit Document Consulting
+DOCUMENT CONSULTING NEW=New Document Consulting
+DOCUMENT CONSULTING VIEW=View Document Consulting
+TO SELECT=to select
+TO SELECT STATE=Filter by State
+TO SELECT BRANCH=Filter by Branch
+TO SELECT COMPANY=Filter by Company
+STATE=State
+DOCUMENT TYPE ID=Document Type Id
+DOCUMENT TYPE NUMBER=Doocuemtn Type Number
+CREATION USERNAME=Creation User
+CREATION DATE= Creation Date
+MODIFICATION DATE=Modification Date
+MODIFICATION USERNAME=Modification User
+FILE DETAILS=File Details
+FILE NAMES=File Names
+COMMENTARY=Comment
+STRUCTURE KEY FIELDS=Structure Key Fields
+CONFIGURATION STATUS=Document Configuration Status
+BRANCH NOT FOUND=Branch not found

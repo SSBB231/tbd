@@ -1,0 +1,39 @@
+<template>
+    <div class='main-wrapper base-layout'>
+        <div class='main-content'>
+            <div class='main-inner'>	
+                <div class="left">
+                    <div class="titleContent" align="center">
+                        <div class="right-title">{{i18n 'COMPONENT NAME'}}</div>
+                        <!--<div id="version" class="version">v.</div>-->
+                    </div>
+                    <div id="left-content" class="left-content">
+                    </div>
+                </div>			
+                <div class='right' >
+                    <div id='right-content' class='right-content'></div>
+                    <div class='overlap-right'></div>
+                    <div class='right-panel'>
+                        <div class='info-right-panel-wrapper' id='library-info'>
+                            <div class='info-header'>
+                                <div class='info-header-container'>
+                                    <div class='info-close-button'>
+                                        <div class='info-close-button-icon'>
+                                            <span class='icon icon-font-Sign-and-Symbols icon-persign'></span>
+                                        </div>
+                                        <span class='info-close-button-text'>{{i18n 'CLOSE'}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='info-content'>
+                                <div class='info-label'>{{i18n 'IINFO'}}</div>
+                                <div id='info-content' class='info-content-wrapper'></div>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</template>

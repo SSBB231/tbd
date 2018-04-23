@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:AccessControl="http://www.sap.com/ndb/SQLCoreModelAccessControl.ecore" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="CV_STORAGE_LOCATION" applyPrivilegeType="ANALYTIC_PRIVILEGE" cacheEnabled="true" checkAnalyticPrivileges="true" defaultClient="crossClient" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="TREE_BASED" dataCategory="DEFAULT" enforceSqlExecution="true" executionSemantic="UNDEFINED" outputViewType="Projection">
+  <origin/>
+  <descriptions defaultDescription="CV_STORAGE_LOCATION"/>
+  <metadata changedAt="2017-11-13 15:16:59.262"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="47"/>
+  <dataSources>
+    <DataSource id="TBD::StorageLocationConfiguration" type="DATA_BASE_TABLE">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="TIMP" columnObjectName="TBD::StorageLocationConfiguration"/>
+    </DataSource>
+    <DataSource id="TBD::DocumentTypeConfig" type="DATA_BASE_TABLE">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="TIMP" columnObjectName="TBD::DocumentTypeConfig"/>
+    </DataSource>
+  </dataSources>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:ProjectionView" id="P_STORAGE_LOCATION">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="ID"/>
+        <viewAttribute id="LEVEL_1"/>
+        <viewAttribute id="LEVEL_2"/>
+        <viewAttribute id="LEVEL_3"/>
+        <viewAttribute id="LEVEL_4"/>
+        <viewAttribute id="LEVEL_5"/>
+        <viewAttribute id="LEVEL_6"/>
+        <viewAttribute id="LEVEL_7"/>
+        <viewAttribute id="LEVEL_8"/>
+        <viewAttribute id="LEVEL_9"/>
+        <viewAttribute id="LEVEL_10"/>
+        <viewAttribute id="LEVEL_11"/>
+        <viewAttribute id="FILE_STORED_ID"/>
+        <viewAttribute id="DOCUMENT_TYPE_ID"/>
+        <viewAttribute id="IS_DELETED">
+          <filter xsi:type="AccessControl:SingleValueFilter" including="false" value="1"/>
+        </viewAttribute>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#TBD::StorageLocationConfiguration">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LEVEL_1" source="LEVEL_1"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LEVEL_2" source="LEVEL_2"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LEVEL_3" source="LEVEL_3"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LEVEL_4" source="LEVEL_4"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LEVEL_5" source="LEVEL_5"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LEVEL_6" source="LEVEL_6"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LEVEL_7" source="LEVEL_7"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LEVEL_8" source="LEVEL_8"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LEVEL_9" source="LEVEL_9"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LEVEL_10" source="LEVEL_10"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LEVEL_11" source="LEVEL_11"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="FILE_STORED_ID" source="FILE_STORED_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DOCUMENT_TYPE_ID" source="DOCUMENT_TYPE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IS_DELETED" source="IS_DELETED"/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:ProjectionView" id="P_DOCUMENT_TYPE_CONFIG">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="ID"/>
+        <viewAttribute id="DOCUMENT_TYPE"/>
+        <viewAttribute id="DOCUMENT_TYPE_DESCRIPTION"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#TBD::DocumentTypeConfig">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DOCUMENT_TYPE" source="DOCUMENT_TYPE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DOCUMENT_TYPE_DESCRIPTION" source="DESCRIPTION"/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:JoinView" id="J_FILE_LOCATION" joinType="inner">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="ID"/>
+        <viewAttribute id="LEVEL_1"/>
+        <viewAttribute id="LEVEL_2"/>
+        <viewAttribute id="LEVEL_3"/>
+        <viewAttribute id="LEVEL_4"/>
+        <viewAttribute id="LEVEL_5"/>
+        <viewAttribute id="LEVEL_6"/>
+        <viewAttribute id="LEVEL_7"/>
+        <viewAttribute id="LEVEL_8"/>
+        <viewAttribute id="LEVEL_9"/>
+        <viewAttribute id="LEVEL_10"/>
+        <viewAttribute id="LEVEL_11"/>
+        <viewAttribute id="FILE_STORED_ID"/>
+        <viewAttribute id="DOCUMENT_TYPE"/>
+        <viewAttribute id="DOCUMENT_TYPE_DESCRIPTION"/>
+        <viewAttribute id="DOCUMENT_TYPE_ID"/>
+        <viewAttribute hidden="true" id="JOIN$ID$DOCUMENT_TYPE_ID"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#P_DOCUMENT_TYPE_CONFIG">
+        <mapping xsi:type="Calculation:AttributeMapping" target="DOCUMENT_TYPE" source="DOCUMENT_TYPE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DOCUMENT_TYPE_DESCRIPTION" source="DOCUMENT_TYPE_DESCRIPTION"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$ID$DOCUMENT_TYPE_ID" source="ID"/>
+      </input>
+      <input node="#P_STORAGE_LOCATION">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LEVEL_1" source="LEVEL_1"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LEVEL_2" source="LEVEL_2"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LEVEL_3" source="LEVEL_3"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LEVEL_4" source="LEVEL_4"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LEVEL_5" source="LEVEL_5"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LEVEL_6" source="LEVEL_6"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LEVEL_7" source="LEVEL_7"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LEVEL_8" source="LEVEL_8"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LEVEL_9" source="LEVEL_9"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LEVEL_10" source="LEVEL_10"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LEVEL_11" source="LEVEL_11"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="FILE_STORED_ID" source="FILE_STORED_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DOCUMENT_TYPE_ID" source="DOCUMENT_TYPE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$ID$DOCUMENT_TYPE_ID" source="DOCUMENT_TYPE_ID"/>
+      </input>
+      <joinAttribute name="JOIN$ID$DOCUMENT_TYPE_ID"/>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="J_FILE_LOCATION">
+    <descriptions/>
+    <attributes>
+      <attribute id="ID" order="1" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="ID"/>
+        <keyMapping columnObjectName="J_FILE_LOCATION" columnName="ID"/>
+      </attribute>
+      <attribute id="LEVEL_1" order="2" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="LEVEL_1"/>
+        <keyMapping columnObjectName="J_FILE_LOCATION" columnName="LEVEL_1"/>
+      </attribute>
+      <attribute id="LEVEL_2" order="3" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="LEVEL_2"/>
+        <keyMapping columnObjectName="J_FILE_LOCATION" columnName="LEVEL_2"/>
+      </attribute>
+      <attribute id="LEVEL_3" order="4" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="LEVEL_3"/>
+        <keyMapping columnObjectName="J_FILE_LOCATION" columnName="LEVEL_3"/>
+      </attribute>
+      <attribute id="LEVEL_4" order="5" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="LEVEL_4"/>
+        <keyMapping columnObjectName="J_FILE_LOCATION" columnName="LEVEL_4"/>
+      </attribute>
+      <attribute id="LEVEL_5" order="6" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="LEVEL_5"/>
+        <keyMapping columnObjectName="J_FILE_LOCATION" columnName="LEVEL_5"/>
+      </attribute>
+      <attribute id="LEVEL_6" order="7" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="LEVEL_6"/>
+        <keyMapping columnObjectName="J_FILE_LOCATION" columnName="LEVEL_6"/>
+      </attribute>
+      <attribute id="LEVEL_7" order="8" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="LEVEL_7"/>
+        <keyMapping columnObjectName="J_FILE_LOCATION" columnName="LEVEL_7"/>
+      </attribute>
+      <attribute id="LEVEL_8" order="9" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="LEVEL_8"/>
+        <keyMapping columnObjectName="J_FILE_LOCATION" columnName="LEVEL_8"/>
+      </attribute>
+      <attribute id="LEVEL_9" order="10" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="LEVEL_9"/>
+        <keyMapping columnObjectName="J_FILE_LOCATION" columnName="LEVEL_9"/>
+      </attribute>
+      <attribute id="LEVEL_10" order="11" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="LEVEL_10"/>
+        <keyMapping columnObjectName="J_FILE_LOCATION" columnName="LEVEL_10"/>
+      </attribute>
+      <attribute id="LEVEL_11" order="12" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="LEVEL_11"/>
+        <keyMapping columnObjectName="J_FILE_LOCATION" columnName="LEVEL_11"/>
+      </attribute>
+      <attribute id="FILE_STORED_ID" order="13" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="FILE_STORED_ID"/>
+        <keyMapping columnObjectName="J_FILE_LOCATION" columnName="FILE_STORED_ID"/>
+      </attribute>
+      <attribute id="DOCUMENT_TYPE" order="14" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="DOCUMENT_TYPE"/>
+        <keyMapping columnObjectName="J_FILE_LOCATION" columnName="DOCUMENT_TYPE"/>
+      </attribute>
+      <attribute id="DESCRIPTION" order="15" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="DESCRIPTION"/>
+        <keyMapping columnObjectName="J_FILE_LOCATION" columnName="DOCUMENT_TYPE_DESCRIPTION"/>
+      </attribute>
+      <attribute id="DOCUMENT_TYPE_ID" order="16" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="DOCUMENT_TYPE_ID"/>
+        <keyMapping columnObjectName="J_FILE_LOCATION" columnName="DOCUMENT_TYPE_ID"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="99" y="87"/>
+        <rectangleSize height="0" width="0"/>
+      </shape>
+      <shape expanded="true" modelObjectName="P_STORAGE_LOCATION" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="176" y="261"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="true" modelObjectName="P_DOCUMENT_TYPE_CONFIG" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="22" y="261"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="true" modelObjectName="J_FILE_LOCATION" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="99" y="165"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

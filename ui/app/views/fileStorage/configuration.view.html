@@ -1,0 +1,86 @@
+<template data-controller-name="app.controllers.fileStorage.configuration">
+    <div class="forms-wrapper">
+        <div class="form-columns one-column">
+            <div class="form-title">{{i18n 'GENERAL INFORMATION'}}</div>
+            <div class="mandatory">
+                <span>* {{i18n 'MANDATORY FIELD'}}</span>
+            </div>
+        </div>
+        <div class="form-columns two-columns">
+            <div class="column">
+                <div class="row">
+                    <div class="label">{{i18n 'COMPANY'}}</div>
+                    <div class="element" id="company"></div>
+                </div>
+                <div class="row">
+                    <div class="label">{{i18n 'BRANCH'}}</div>
+                    <div class="element" id="branch"></div>
+                </div>            
+                <div class="row">
+                    <div class="label">{{i18n 'DOCUMENT TYPE'}}</div>
+                    <div class="element" id="docType"></div>
+                </div>
+                <div class="row">
+                    <div class="label">{{i18n 'STATUS'}}</div>
+                    <div class="element" id="status"></div>
+                </div>
+                <!--<div class="row">-->
+                <!--    <div class="label">{{i18n 'FILE NAME'}}</div>-->
+                <!--    <div class="element" id="fileName"></div>-->
+                <!--</div>-->
+                <div class="row">
+                    <div class="label">{{i18n 'KEY FIELD'}}</div>
+                    <div class="element" id="keyField1"></div>
+                </div>
+                <div class="row">
+                    <div class="label">{{i18n 'VALID FROM'}}</div>
+                    <div class="element" id="validFrom"></div>
+                </div>  
+                <div class="row">
+                    <div class="label">{{i18n 'UPLOAD FILE'}}</div>
+                    <div class="attachment-item-container">
+                        <ul id="file" class="file"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="row">
+                    <div class="label">{{i18n 'UF'}}</div>
+                    <div class="element" id="uf"></div>
+                </div>
+                <div class="row">
+                    <div class="label">{{i18n 'TAX'}}</div>
+                    <div class="element" id="tax"></div>
+                </div>
+                <div class="row">
+                    <div class="label">{{i18n 'DOCUMENT TYPE DESCRIPTION'}}</div>
+                    <div class="element" id="description"></div>
+                </div>
+                <div class="row">
+                    <div class="label">{{i18n 'CLASSIFICATION'}}</div>
+                    <div class="element" style="width:50%;" id="classification"></div>
+                    <button id="classificationBtn" class="btn trans classification-item">
+            			<span class="icon-font-Sign-and-Symbols icon-locked"></span>
+            		</button>
+                </div>
+                <div class="row">
+                    <div class="label">{{i18n 'KEY FIELD'}}</div>
+                    <div class="element" id="keyField2"></div>
+                </div>
+                <div class="row">
+                    <div class="label">{{i18n 'VALID TO'}}</div>
+                    <div class="element" id="validTo"></div>
+                </div> 
+                <!-- <div class="row">
+                    <div class="label">{{i18n 'ADDRESS'}}</div>
+                    <div class="element" id="address"></div>
+                </div> -->
+                <div class="row">
+                    <div class="label">{{i18n 'FILE PREVIEW'}}</div>
+                    <div id="header-logo-container" class="img-wrapper">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

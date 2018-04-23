@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:AccessControl="http://www.sap.com/ndb/SQLCoreModelAccessControl.ecore" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="CV_FILE_STORAGE_GROUPS" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="crossClient" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="TREE_BASED" dataCategory="DIMENSION" enforceSqlExecution="true" executionSemantic="UNDEFINED" outputViewType="Projection">
+  <origin/>
+  <descriptions defaultDescription="CV_FILE_STORAGE_GROUPS"/>
+  <metadata changedAt="2017-12-05 08:53:16.236"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="54"/>
+  <dataSources>
+    <DataSource id="TBD::FileStorage" type="DATA_BASE_TABLE">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="TIMP" columnObjectName="TBD::FileStorage"/>
+    </DataSource>
+    <DataSource id="TBD::FileStorageGroups" type="DATA_BASE_TABLE">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="TIMP" columnObjectName="TBD::FileStorageGroups"/>
+    </DataSource>
+    <DataSource id="CORE::USER" type="DATA_BASE_TABLE">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="TIMP" columnObjectName="CORE::USER"/>
+    </DataSource>
+    <DataSource id="CORE::GROUP_USER" type="DATA_BASE_TABLE">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="TIMP" columnObjectName="CORE::GROUP_USER"/>
+    </DataSource>
+  </dataSources>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:ProjectionView" id="P_FILE_STORAGE">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="FILE_ID"/>
+        <viewAttribute id="IS_DELETED">
+          <filter xsi:type="AccessControl:SingleValueFilter" including="false" value="1"/>
+        </viewAttribute>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#TBD::FileStorage">
+        <mapping xsi:type="Calculation:AttributeMapping" target="FILE_ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="IS_DELETED" source="IS_DELETED"/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:ProjectionView" id="P_FILE_STORAGE_GROUPS">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="ID_TABLE"/>
+        <viewAttribute id="ID_CONFIGURATION"/>
+        <viewAttribute id="ID_GROUP"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#TBD::FileStorageGroups">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_TABLE" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_CONFIGURATION" source="ID_CONFIGURATION"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_GROUP" source="ID_GROUP"/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:JoinView" id="J_GROUPS" joinType="inner">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="FILE_ID"/>
+        <viewAttribute id="ID_GROUP"/>
+        <viewAttribute id="ID_TABLE"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#P_FILE_STORAGE">
+        <mapping xsi:type="Calculation:AttributeMapping" target="FILE_ID" source="FILE_ID"/>
+      </input>
+      <input node="#P_FILE_STORAGE_GROUPS">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_GROUP" source="ID_GROUP"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_TABLE" source="ID_TABLE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="FILE_ID" source="ID_CONFIGURATION"/>
+      </input>
+      <joinAttribute name="FILE_ID"/>
+    </calculationView>
+    <calculationView xsi:type="Calculation:ProjectionView" id="P_USER">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="ID"/>
+        <viewAttribute id="GROUPS_HANA_USER"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#CORE::USER">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="GROUPS_HANA_USER" source="HANA_USER"/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:ProjectionView" id="P_GROUP">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="GROUP_ID"/>
+        <viewAttribute id="USER_ID"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#CORE::GROUP_USER">
+        <mapping xsi:type="Calculation:AttributeMapping" target="GROUP_ID" source="GROUP_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="USER_ID" source="USER_ID"/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:JoinView" id="J_GROUP" joinType="inner">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="HANA_USER"/>
+        <viewAttribute id="USER_ID"/>
+        <viewAttribute id="GROUP_ID"/>
+        <viewAttribute hidden="true" id="JOIN$ID$USER_ID"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#P_USER">
+        <mapping xsi:type="Calculation:AttributeMapping" target="HANA_USER" source="GROUPS_HANA_USER"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$ID$USER_ID" source="ID"/>
+      </input>
+      <input node="#P_GROUP">
+        <mapping xsi:type="Calculation:AttributeMapping" target="USER_ID" source="USER_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="GROUP_ID" source="GROUP_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$ID$USER_ID" source="USER_ID"/>
+      </input>
+      <joinAttribute name="JOIN$ID$USER_ID"/>
+    </calculationView>
+    <calculationView xsi:type="Calculation:JoinView" id="J_GROUPS_USERS" joinType="inner">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="FILE_ID"/>
+        <viewAttribute id="USER_ID"/>
+        <viewAttribute id="HANA_USER"/>
+        <viewAttribute id="GROUP_ID"/>
+        <viewAttribute id="ID_TABLE"/>
+        <viewAttribute hidden="true" id="JOIN$ID_GROUP$GROUP_ID"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="#J_GROUPS">
+        <mapping xsi:type="Calculation:AttributeMapping" target="FILE_ID" source="FILE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID_TABLE" source="ID_TABLE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$ID_GROUP$GROUP_ID" source="ID_GROUP"/>
+      </input>
+      <input node="#J_GROUP">
+        <mapping xsi:type="Calculation:AttributeMapping" target="USER_ID" source="USER_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="HANA_USER" source="HANA_USER"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="GROUP_ID" source="GROUP_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$ID_GROUP$GROUP_ID" source="GROUP_ID"/>
+      </input>
+      <joinAttribute name="JOIN$ID_GROUP$GROUP_ID"/>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="J_GROUPS_USERS">
+    <descriptions/>
+    <attributes>
+      <attribute id="FILE_ID" order="1" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="FILE_ID"/>
+        <keyMapping columnObjectName="J_GROUPS_USERS" columnName="FILE_ID"/>
+      </attribute>
+      <attribute id="USER_ID" order="2" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="USER_ID"/>
+        <keyMapping columnObjectName="J_GROUPS_USERS" columnName="USER_ID"/>
+      </attribute>
+      <attribute id="HANA_USER" order="3" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="HANA_USER"/>
+        <keyMapping columnObjectName="J_GROUPS_USERS" columnName="HANA_USER"/>
+      </attribute>
+      <attribute id="GROUP_ID" order="4" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="GROUP_ID"/>
+        <keyMapping columnObjectName="J_GROUPS_USERS" columnName="GROUP_ID"/>
+      </attribute>
+      <attribute id="ID_TABLE" order="5" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="ID_TABLE"/>
+        <keyMapping columnObjectName="J_GROUPS_USERS" columnName="ID_TABLE"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape expanded="false" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="253" y="87"/>
+        <rectangleSize height="0" width="0"/>
+      </shape>
+      <shape expanded="true" modelObjectName="P_FILE_STORAGE" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="22" y="339"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="true" modelObjectName="P_FILE_STORAGE_GROUPS" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="176" y="339"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="true" modelObjectName="J_GROUPS" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="176" y="243"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="true" modelObjectName="P_USER" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="330" y="339"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="true" modelObjectName="P_GROUP" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="484" y="339"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="true" modelObjectName="J_GROUP" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="330" y="243"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape expanded="true" modelObjectName="J_GROUPS_USERS" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="253" y="147"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>
