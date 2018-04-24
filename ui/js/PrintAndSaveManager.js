@@ -19,7 +19,7 @@ function newPrintAndSaveManager() {
         */
         selectedFiles: null,
 
-        //Instancia de un FileFetcher
+        //Instance of a FileFetcher
         fileFetcher: null,
 
         //Constructor
@@ -57,22 +57,22 @@ function newPrintAndSaveManager() {
             _self.fileFetcher.setFileList(_self.selectedFiles);
         },
 
-        //Usa el patrón estrategia para cambiar entre salvar uno por uno y salvar en zip
+        //Strategy pattern used to choose between saving as zip or separately
         saveAllStrategy: {save: saveAsZip},
 
-        //Agrega el archivo especificado al arreglo de archivos
+        //Adds file to the array of all files
         addFile: function(file){
             this.allFiles.push(file);
         },
 
-        //Quita el archivo especificado del arreglo de archivos
+        //Removes specified file from the array
         removeFile: function(file){
+            var index = this.allFiles.indexOf(file);
 
-        },
-
-        //Descarga y guarda el archivo especificado en la computadora
-        saveFile: function(file){
-
+            if(index > -1)
+                this.allFiles.splice(index, 1);
+            else
+                console.log("No files removed. File was not in file list.");
         },
 
         //Descarga un zip de todos los archivos en el arreglo de archivos
@@ -80,7 +80,11 @@ function newPrintAndSaveManager() {
             this.fileFetcher.fetchFilesAndSave();
         },
 
-        saveAllSelected: function(){},
+        //Saves all files using the specified Strategy.
+        //WARNING: it's recommended to not use this function directly but actually
+        saveAllSelected: function(){
+            this.saveAllStrategy.save(this.selectedFiles);
+        },
 
         //Imprime el archivo especificado
         printFile: function(file){
@@ -127,7 +131,7 @@ function newFileFetcher(fileList, printerSaver) {
     var instance = {
 
         //Constructor de la clase
-        init() {
+        _init: function() {
 
             this.setFileList(fileList);
             this.printerSaver = printerSaver;
@@ -147,7 +151,7 @@ function newFileFetcher(fileList, printerSaver) {
         printerSaver: null,
 
         //Esta función setea el arreglo de archivos con el que se trabajará
-        setFileList(newFileList) {
+        setFileList: function(newFileList) {
 
             //Si el arreglo de archivos viene nulo, crear uno vacío
             if(fileList === null)
@@ -157,7 +161,7 @@ function newFileFetcher(fileList, printerSaver) {
         },
 
         //Esta función
-        extractFileNumber(link){
+        extractFileNumber: function(link){
 
             //Partimos el URL para separar cada una de sus secciones
             var splitLink = link.toString().split("/");
@@ -169,75 +173,94 @@ function newFileFetcher(fileList, printerSaver) {
         },
 
         //Temporal
-        fetchFilesAndPrint(){
+        fetchFilesAndPrint: function(){
+            this.recursiveFetchFileForPrint(0);
+        },
 
-            for(var index = 0; i < this.files.length; ) {
+        //Recursive function that will download all files
+        recursiveFetchFileForPrint: function(index){
 
-                Data.endpoints.attach.get.get({
-                    id: this.extractFileNumber(file.link)
+            //Base Case: if we reached past the last index in the array, printall and return
+            if(index >= this.files.length)
+            {
+                this.printerSaver.printAllSelected();
+                return;
+            }
+
+            //Reference to this
+            var _self = this;
+
+            //If not base case, fetch specified index
+            Data.endpoints.attach.get.get(_self.extractFileNumber(_self.files[index].link))
+                .success(function(response){
+
+                    //Upon receiving response, set the contents of the file
+                    _self.setFileContents(_self.files[index], response);
+
+                    //Use setTimeOut for recursive call to prevent stack overflow if too many files
+                    setTimeout(_self.recursiveFetchFileForPrint(index+1), 0);
                 })
-                .success(function(response) {
+                .error(function(response){
 
-                    this.setFileContents(file, response);
+                    //Upon receiving response, set the contents of the file
+                    _self.setFileContents(_self.files[index], response);
 
-                    if(index === file.length-1) {
-                        this.printerSaver.printAllSelected();
-                    }
-
-                    index++;
-                })
-                .error(function(response) {
-
-                    this.setFileContents(file, response);
-
-                    if(index === file.length-1) {
-                        this.printerSaver.printAllSelected();
-                    }
-
-                    index++;
+                    //Use setTimeOut for recursive call to prevent stack overflow if too many files
+                    setTimeout(_self.recursiveFetchFileForPrint(index+1), 0);
                 });
-            }
+
         },
 
-        //Temporal
-        fetchFilesAndSave(){
+        //Recursive function that will download all files
+        recursiveFetchFileForSave: function(index){
 
-            for(var index = 0; i < this.files.length; ) {
+            //Base Case: if we reached past the last index in the array, printall and return
+            if(index >= this.files.length)
+            {
+                this.printerSaver.saveAllSelected();
+                return;
+            }
 
-                Data.endpoints.attach.get.get({
-                    id: this.extractFileNumber(file.link)
+            var _self = this;
+
+            //If not base case, fetch specified index
+            Data.endpoints.attach.get.get()
+                .success(function(response){
+
+                    console.log("Fetched in success");
+
+                    //Upon receiving response, set the contents of the file
+                    _self.setFileContents(this.files[index], response);
+
+                    //Use setTimeOut for recursive call to prevent stack overflow if too many files
+                    setTimeout(_self.recursiveFetchFileForSave(index+1), 0);
                 })
-                    .success(function(response) {
+                .error(function(response){
 
-                        this.setFileContents(file, response);
+                    console.log("Fetched in error");
 
-                        if(index === file.length-1) {
-                            this.printerSaver.saveAllSelected();
-                        }
+                    //Upon receiving response, set the contents of the file
+                    _self.setFileContents(this.files[index], response);
 
-                        index++;
-                    })
-                    .error(function(response) {
+                    //Use setTimeOut for recursive call to prevent stack overflow if too many files
+                    setTimeout(_self.recursiveFetchFileForSave(index+1), 0);
+                });
 
-                        this.setFileContents(file, response);
-
-                        if(index === file.length-1) {
-                            this.printerSaver.saveAllSelected();
-                        }
-
-                        index++;
-                    });
-            }
         },
 
         //Temporal
-        setFileContents(file, contents){
+        fetchFilesAndSave: function(){
+            this.recursiveFetchFileForSave(0);
+        },
+
+        //Temporal
+        setFileContents: function(file, contents){
             file.contents = contents;
             console.log(contents);
         }
     };
 
-    instance.init();
+    instance._init();
 
     return instance;
 }

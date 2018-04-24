@@ -22,7 +22,7 @@ sap.ui.controller("app.controllers.documentConsulting.list", {
             return;
         }
 
-        this.printerSaver.saveAllSelected();
+        this.printerSaver.fetchAndSave();
 	},
 	
 	//Add function that handles click on print button
@@ -37,7 +37,7 @@ sap.ui.controller("app.controllers.documentConsulting.list", {
             return;
         }
 
-		this.printerSaver.printAllSelected();
+		this.printerSaver.fetchAndPrint();
 	},
 
 	//Generates a prompt to select a file to print or save

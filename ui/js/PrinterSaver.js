@@ -69,11 +69,6 @@ function newPrinterSaver() {
                 console.log("No files removed. File was not in file list.");
         },
 
-        //Downloads and stores the specified file on disk
-        saveFile: function(file){
-            //Nothing here for now
-        },
-
         //Saves all files using the specified Strategy
         saveAllSelected: function(){
             this.saveAllStrategy.save(this.selectedFiles);
