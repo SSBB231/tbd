@@ -52,7 +52,7 @@ function newPrinterSaver() {
 
         //Strategy to choose between save as zip and save one by one
         //Default is saveAsZip
-        saveAllStrategy: {save: saveAsZip},
+        saveAllStrategy: {save: saveZip},
 
         //Adds file to the array of all files
         addFile: function(file){

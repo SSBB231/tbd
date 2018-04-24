@@ -28,13 +28,13 @@ sap.ui.controller("app.controllers.documentConsulting.list", {
 	noneSelectedMessage: function(){
 
 		//Use replace to get rid of branch and just keep select
-		var select = i18n("SELECT BRANCH").replace("Filial", "") + " ";
+		var select = i18n("SELECT BRANCH").replace("Filial", "").trim() + " ";
 
 		//Split and pop to keep only the word register
-		var register = i18n("SAVE DIALOG").split(" ").pop() + " ";
+		var register = i18n("SAVE DIALOG").split(" ").pop().replace("?", "").trim() + " ";
 
 
-		var toPrint = i18n("TO") + " " + i18n("PRINT") + "/" + i18n("DOWNLOAD");
+		var toPrint = i18n("TO") + " " + i18n("PRINT") + "/" + i18n("SAVE");
 
 		return select + register + toPrint;
 	},
