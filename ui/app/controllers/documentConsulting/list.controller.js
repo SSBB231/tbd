@@ -4,24 +4,39 @@ sap.ui.controller("app.controllers.documentConsulting.list", {
 		return $.extend(data, this.data);
 	},
 	
-	//CAMBIO: agrego una instancia de un PrintAndSaveManager
+	//Change: add an instance of a PrinterSaver to handle printing and saving
 	onInit: function() {
 		this.printerSaver = newPrinterSaver();
 	},
 	
-	//Agregar función que haga el handling de presionar el botón de imprimir
+	//Add function that handles click on print button
 	handlePrintClick: function(){
 
-		//Filtrar los archivos que no están seleccionados
-        this.printerSaver.apllySelectionFilter(this._table.getCheckedElements());
+		//Filter files using the table controller's list of checked elements' ids
+        this.printerSaver.applySelectionFilter(this._table.getCheckedElements());
 
         //If there are no files selected, then send a message and return from function
         if(this.printerSaver.noFiles()) {
-            alert("Por favor, selecione os arquivos para imprimir");
+            alert(this.noneSelectedMessage());
             return;
         }
 
 		this.printerSaver.printAllSelected();
+	},
+
+	//Generates a prompt to select a file to print or save
+	noneSelectedMessage: function(){
+
+		//Use replace to get rid of branch and just keep select
+		var select = i18n("SELECT BRANCH").replace("Filial", "") + " ";
+
+		//Split and pop to keep only the word register
+		var register = i18n("SAVE DIALOG").split(" ").pop() + " ";
+
+
+		var toPrint = i18n("TO") + " " + i18n("PRINT") + "/" + i18n("DOWNLOAD");
+
+		return select + register + toPrint;
 	},
 	
 	onAfterRendering: function(html) {
