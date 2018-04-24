@@ -439,7 +439,7 @@ sap.ui.controller("app.controllers.documentConsulting.list", {
                     parseDate(element.modificationDate)]
 				});
 
-				element.fileStorage.forEach((file)=>{
+				element.fileStorage.forEach(function(file) {
 
 					//Agregar información y links de cada uno de los archivos
 					var fileInfo = {

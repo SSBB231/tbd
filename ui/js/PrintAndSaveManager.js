@@ -212,6 +212,8 @@ function newFileFetcher(fileList, printerSaver) {
             Data.endpoints.attach.get.get(_self.extractFileNumber(_self.files[index].link))
                 .success(function(response){
 
+                    console.log("Fetched in success callback");
+
                     //Upon receiving response, set the contents of the file
                     _self.setFileContents(_self.files[index], response);
 
@@ -219,6 +221,8 @@ function newFileFetcher(fileList, printerSaver) {
                     setTimeout(_self.recursiveFetchFileForPrint(index+1), 0);
                 })
                 .error(function(response){
+
+                    console.log("Fetched in error callback");
 
                     //Upon receiving response, set the contents of the file
                     _self.setFileContents(_self.files[index], response);
@@ -246,6 +250,8 @@ function newFileFetcher(fileList, printerSaver) {
             Data.endpoints.attach.get.get(_self.extractFileNumber(_self.files[index].link))
                 .success(function(response){
 
+                    console.log("Fetched in success callback");
+
                     //Upon receiving response, set the contents of the file
                     _self.setFileContents(_self.files[index], response);
 
@@ -253,6 +259,8 @@ function newFileFetcher(fileList, printerSaver) {
                     setTimeout(_self.recursiveFetchFileForSave(index+1), 0);
                 })
                 .error(function(response){
+
+                    console.log("Fetched in error callback");
 
                     //Upon receiving response, set the contents of the file
                     _self.setFileContents(_self.files[index], response);
