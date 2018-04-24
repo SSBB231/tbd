@@ -93,8 +93,10 @@ function newPrintAndSaveManager() {
 
             if(file.contents !== null)
                 contents = "Have Some STUFF";
+            else
+                contents = "Nope. Nothing fetched"
 
-            console.log(`rowId: ${file.rowId}\nname: ${file.name}\nlink: ${file.link}\ncontents: ${file.contents ? "fetched" : "not fetched"}`);
+            console.log(`rowId: ${file.rowId}\nname: ${file.name}\nlink: ${file.link}\ncontents: ${contents}`);
         },
 
         //Imprime todos los archivos especificados
@@ -105,7 +107,7 @@ function newPrintAndSaveManager() {
         printAllSelected: function(){
 
             var _self = this;
-            _self.files.forEach(function(file){
+            _self.selectedFiles.forEach(function(file){
                 _self.printFile(file);
             })
         }
@@ -119,8 +121,16 @@ function newPrintAndSaveManager() {
 
 //Esta función descargará los archivos en un zip
 function saveAsZip(files){
-    files.forEach(function(file){
-        console.log(`rowId: ${file.rowId}\nname: ${file.name}\nlink: ${file.link}\ncontents: ${file.contents ? "fetched" : "not fetched"}`);
+    files.forEach(function(file) {
+
+        var contents = "";
+
+        if (file.contents !== null)
+            contents = "Have Some STUFF";
+        else
+            contents = "Nope. Nothing fetched"
+
+        console.log(`rowId: ${file.rowId}\nname: ${file.name}\nlink: ${file.link}\ncontents: ${contents}`);
     });
 }
 
