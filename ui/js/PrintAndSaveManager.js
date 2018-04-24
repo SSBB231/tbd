@@ -148,7 +148,8 @@ function saveAsZip(files){
 
     files.forEach(function(file) {
 
-        // var contents = "";
+
+        zipFile.toString();
         //
         // if (file.contents !== null)
         //     contents = "Have Some STUFF";
@@ -222,8 +223,10 @@ function newFileFetcher(fileList, printerSaver) {
             return +splitLink[splitLink.length-2];
         },
 
-        //Temporal
+        //Function will enter recursive call to get the files
         fetchFilesAndPrint: function(){
+
+            //This condition prevents multiple requests that result from clicking download many times
             if(!this.fetching) {
                 this.fetching = true;
                 this.recursiveFetchFileForPrint(0);
@@ -312,6 +315,8 @@ function newFileFetcher(fileList, printerSaver) {
 
         //Temporal
         fetchFilesAndSave: function(){
+
+            //This condition prevents multiple requests that result from clicking download many times
             if(!this.fetching) {
                 this.fetching = true;
                 this.recursiveFetchFileForSave(0);
