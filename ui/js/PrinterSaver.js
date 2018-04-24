@@ -104,11 +104,39 @@ function newPrinterSaver() {
 //Function will create a zip package and prompt browser to download it
 function saveZip(files){
 
-    var zipGenerator = new JSZip();
+    //Instantiate new JSZip
+    var zipFile = new JSZip();
 
-    files.forEach(function(f){
-        console.log(f);
+    files.forEach(function(file){
+
+        //Add binaryContent to zipFile, send file name, file link, and tell JSZip that the content is binary
+        zipFile.file(file.name, getBinaryFromURL(prepareLink(file.link)), {binary: true});
     });
+}
+
+//Returns a promise of the binary content requested. Must do it this way because JSZip works with promises
+function getBinaryFromURL(url){
+
+    //Make new promise
+    return new JSZip.external.Promise(function (resolve, reject) {
+
+        //Calls get binary content and returns the content
+        JSZipUtils.getBinaryContent(url, function(err, data) {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(data);
+            }
+        });
+    });
+}
+
+function prepareLink(file){
+
+    //Prefix for testing grabbing file from td1 environment
+    var prefix = "http://as1-100-01-td1";
+
+    return prefix + file.link;
 }
 
 //Esta función descargará los archivos uno por uno

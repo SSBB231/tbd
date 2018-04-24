@@ -1,58 +1,59 @@
 /*
-Clase que se encarga de salvar e imprimir archivos
+Class in charge of printing or saving files
 */
 function newPrintAndSaveManager() {
 
     var instance = {
-        //Datos miembro
+        //Data members
 
-        //Arreglo que contiene la información de los archivos a salvar o a imprimir
+        //Array of file objects
         allFiles: null,
 
-        //Arreglo de solamente los archivos seleccionados de la tabla
-        //Cada archivo es un objeto con las siguientes propiedades
+        //Array of only selected files from the table row
+        //Each file has the following properties
         /*
-            rowId: id de la fila a la que pertenece el archivo en la tabla de consulta de documentos en TBD
-            name: nombre del archivo, incluyendo su extensión
-            link: URL del backend donde se encuentra el archivo
-            contents: referencia al contenido del archivo (usualmente binario)
+            rowId: id of the row within the Consulta de Documentos's table
+            name: name of file, including its extension
+            link: URL used to access file from backend server
+            contents: reference to the file's contents. May be null
         */
         selectedFiles: null,
 
         //Instancia de un FileFetcher
         fileFetcher: null,
 
-        //Constructor de la clase
-        _init(){
+        //Constructor
+        _init: function(){
 
             this.allFiles = [];
             this.selectedFiles = [];
 
+            //
             this.fileFetcher = newFileFetcher(this.selectedFiles, this);
         },
 
-        noFiles() {
+        //Returns true if there were no files selected after calling applySelectionFilter
+        noFiles: function() {
             return this.selectedFiles.length === 0;
         },
 
-        //Función que manda el controlador de la tabla a este objeto
-        apllySelectionFilter(ids){
+        //Adds only files selected, as represented by the ids array, to a separate array
+        applySelectionFilter: function(ids){
 
-            //Hacer referencia a this
+            //Keep reference to this
             var _self = this;
 
-            //Eliminamos todos los filtrados archivos ya guardados
+            //We reempty the selectedFiles array
             _self.selectedFiles = [];
 
-            //Recorremos el arreglo de todos los archivos y agregamos solo aquellos
-            //cuyos rowId se encuentra dentro de los id's de las filas seleccionadas
+            //Iterate over the array of all files and add only the selected ones
             _self.allFiles.forEach(function(file) {
                 if(ids.includes(file.rowId.toString())) {
                     _self.selectedFiles.push(file);
                 }
             });
 
-            //Setear la lista con la que trabajará el FileFetcher
+            //Give files to fileFetcher
             _self.fileFetcher.setFileList(_self.selectedFiles);
         },
 
@@ -60,27 +61,29 @@ function newPrintAndSaveManager() {
         saveAllStrategy: {save: saveAsZip},
 
         //Agrega el archivo especificado al arreglo de archivos
-        addFile(file){
+        addFile: function(file){
             this.allFiles.push(file);
         },
 
         //Quita el archivo especificado del arreglo de archivos
-        removeFile(file){
+        removeFile: function(file){
 
         },
 
         //Descarga y guarda el archivo especificado en la computadora
-        saveFile(file){
+        saveFile: function(file){
 
         },
 
         //Descarga un zip de todos los archivos en el arreglo de archivos
-        saveAllSelected(){
-            this.saveAllStrategy.save(this.selectedFiles);
+        fetchAndSave: function(){
+            this.fileFetcher.fetchFilesAndSave();
         },
 
+        saveAllSelected: function(){},
+
         //Imprime el archivo especificado
-        printFile(file){
+        printFile: function(file){
 
             var contents = "";
 
@@ -91,13 +94,10 @@ function newPrintAndSaveManager() {
         },
 
         //Imprime todos los archivos especificados
-        printAllSelected(){
-            this.selectedFiles.forEach((file)=>this.printFile(file));
+        fetchAndPrint: function(){
+            this.fileFetcher.fetchFilesAndPrint();
         },
 
-        fetchFilesFromBackend(){
-            this.fileFetcher.fetchFiles();
-        }
     };
 
     instance._init();
@@ -107,7 +107,9 @@ function newPrintAndSaveManager() {
 
 //Esta función descargará los archivos en un zip
 function saveAsZip(files){
-    files.forEach(f=>console.log(f));
+    file.forEach(function(file){
+
+    });
 }
 
 //Esta función descargará los archivos uno por uno
@@ -166,28 +168,66 @@ function newFileFetcher(fileList, printerSaver) {
             return +splitLink[splitLink.length-2];
         },
 
-        //Llama al BE para que devuelva el contenido del archivo mandado como argumento
-        fetchFile(file) {
+        //Temporal
+        fetchFilesAndPrint(){
 
-            Data.endpoints.attach.get.get({
-                id: this.extractFileNumber(file.link)
-            })
-                .success((response)=>{
-                    alert("SUCCESS");
-                    this.setFileContents(file, response);
-                    this.printerSaver.printAllSelected();
+            for(var index = 0; i < this.files.length; ) {
+
+                Data.endpoints.attach.get.get({
+                    id: this.extractFileNumber(file.link)
                 })
-                .error((e)=>{
-                    console.log(`Failed to fetch ${file.link}`);
-                    console.log("Details: " + e);
-                });
+                .success(function(response) {
 
-            // this.printerSaver.printAllSelected();
+                    this.setFileContents(file, response);
+
+                    if(index === file.length-1) {
+                        this.printerSaver.printAllSelected();
+                    }
+
+                    index++;
+                })
+                .error(function(response) {
+
+                    this.setFileContents(file, response);
+
+                    if(index === file.length-1) {
+                        this.printerSaver.printAllSelected();
+                    }
+
+                    index++;
+                });
+            }
         },
 
         //Temporal
-        fetchFiles(){
-            this.fetchFile(this.files[0]);
+        fetchFilesAndSave(){
+
+            for(var index = 0; i < this.files.length; ) {
+
+                Data.endpoints.attach.get.get({
+                    id: this.extractFileNumber(file.link)
+                })
+                    .success(function(response) {
+
+                        this.setFileContents(file, response);
+
+                        if(index === file.length-1) {
+                            this.printerSaver.saveAllSelected();
+                        }
+
+                        index++;
+                    })
+                    .error(function(response) {
+
+                        this.setFileContents(file, response);
+
+                        if(index === file.length-1) {
+                            this.printerSaver.saveAllSelected();
+                        }
+
+                        index++;
+                    });
+            }
         },
 
         //Temporal

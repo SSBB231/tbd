@@ -6,7 +6,23 @@ sap.ui.controller("app.controllers.documentConsulting.list", {
 	
 	//Change: add an instance of a PrinterSaver to handle printing and saving
 	onInit: function() {
-		this.printerSaver = newPrinterSaver();
+		this.printerSaver = newPrintAndSaveManager();
+	},
+
+	//Function to handle click on Download button
+    handleDownloadClick: function(){
+
+
+        //Filter files using the table controller's list of checked elements' ids
+        this.printerSaver.applySelectionFilter(this._table.getCheckedElements());
+
+        //If there are no files selected, then send a message and return from function
+        if(this.printerSaver.noFiles()) {
+            alert(this.noneSelectedMessage());
+            return;
+        }
+
+        this.printerSaver.saveAllSelected();
 	},
 	
 	//Add function that handles click on print button
@@ -201,7 +217,7 @@ sap.ui.controller("app.controllers.documentConsulting.list", {
 			//Información para el botón de descarga
 			{
 				onPress: function() {
-					alert("DOWNLOADING");
+					_self.handleDownloadClick();
 				},
 				icon: "download",
 				iconFont: "DataManager",
@@ -211,6 +227,8 @@ sap.ui.controller("app.controllers.documentConsulting.list", {
 			hideGrid: true
 		});
 	},
+
+
 
 	renderLibraryContent: function() {
 		var _self = this;

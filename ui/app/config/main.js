@@ -4,7 +4,10 @@ jQuery.sap.require('app.config.endpoints');
 jQuery.sap.require("sap.ui.app.Application");
 
 //Import tbd/ui/js/PrinterSaver.js
-jQuery.sap.require("js.PrinterSaver");
+jQuery.sap.require("js.PrintAndSaveManager");
+
+//Import JSZip
+jQuery.sap.require("sap.ui.thirdparty.jszip");
 
 sap.ui.app.Application.extend("TBD", {
 
