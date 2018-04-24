@@ -1,7 +1,12 @@
 /*
-Clase que se encarga de salvar e imprimir archivos
+This "class" is in charge of printing and downloading files fetched from the backend
+by the FileFetchManager
 
-TODO: Arreglar este archivo para que funcione solamente con los links
+IMPORTANT: This class is supposed to do everything the PrintAndSaveManager can do
+           but without depending on the backend's synchronization methods. Instead
+           It will use the new JSZip's methods which rely on promises to get the
+           job done
+
 */
 function newPrinterSaver() {
 
@@ -184,13 +189,13 @@ function newFileFetchManager(fileList, printerSaver) {
         },
 
         //This function returns the file id extracted from the file's URL
-        extractFileNumber: function(link){
+        extractFileId: function(link){
 
             //Split the URL by the "/" separator
             var splitLink = link.toString().split("/");
 
             //The next to last element of the array is the file id
-            // example URL: timp/core/server/endpoint.xsjs/attachments/get/275/
+            //example URL: timp/core/server/endpoint.xsjs/attachments/get/275/
             //Plus sign is to cast string to number
             return +splitLink[splitLink.length-2];
         },
@@ -200,7 +205,7 @@ function newFileFetchManager(fileList, printerSaver) {
 
             //Backend requires object with id property to return a file
             Data.endpoints.attach.get.get({
-                id: this.extractFileNumber(file.link)
+                id: this.extractFileId(file.link)
             })
             .success(function(response) {
 

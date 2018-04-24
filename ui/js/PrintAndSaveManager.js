@@ -4,7 +4,8 @@ Class in charge of printing or saving files
 function newPrintAndSaveManager() {
 
     var instance = {
-        //Data members
+
+        //Data members-------------------------------------------------------
 
         //Array of file objects
         allFiles: null,
@@ -14,13 +15,14 @@ function newPrintAndSaveManager() {
         /*
             rowId: id of the row within the Consulta de Documentos's table
             name: name of file, including its extension
-            link: URL used to access file from backend server
+            link: URL used to access file on backend server
             contents: reference to the file's contents. May be null
         */
         selectedFiles: null,
 
         //Instance of a FileFetcher
         fileFetcher: null,
+        //End data members----------------------------------------------------
 
         //Constructor
         _init: function(){
@@ -32,12 +34,13 @@ function newPrintAndSaveManager() {
             this.fileFetcher = newFileFetcher(this.selectedFiles, this);
         },
 
+        //Methods--------------------------------------------------------------------------------
         //Returns true if there were no files selected after calling applySelectionFilter
         noFiles: function() {
             return this.selectedFiles.length === 0;
         },
 
-        //Adds only files selected, as represented by the ids array, to a separate array
+        //Adds only selected files, as represented by the ids array, to a separate array
         applySelectionFilter: function(ids){
 
             //Keep reference to this
@@ -58,6 +61,7 @@ function newPrintAndSaveManager() {
         },
 
         //Strategy pattern used to choose between saving as zip or separately
+        //Default is save as zip
         saveAllStrategy: {save: saveAsZip},
 
         //Adds file to the array of all files
@@ -65,17 +69,27 @@ function newPrintAndSaveManager() {
             this.allFiles.push(file);
         },
 
-        //Removes specified file from the array
+        //Removes specified file from the allFiles array and the selectedFiles array
         removeFile: function(file){
+
             var index = this.allFiles.indexOf(file);
 
+            //If index exists, use splice to remove from allFiles
             if(index > -1)
                 this.allFiles.splice(index, 1);
             else
                 console.log("No files removed. File was not in file list.");
+
+            index = this.selectedFiles.indexOf(file);
+
+            //If index exists, use splice to remove from selectedFiles
+            if(index > -1)
+                this.selectedFiles.splice(index, 1);
+            else
+                console.log("No files removed. File was not in file list.");
         },
 
-        //Descarga un zip de todos los archivos en el arreglo de archivos
+        //Uses FileFetcher instance to fetch and save the files
         fetchAndSave: function(){
             this.fileFetcher.fetchFilesAndSave();
         },
@@ -86,8 +100,13 @@ function newPrintAndSaveManager() {
             this.saveAllStrategy.save(this.selectedFiles);
         },
 
-        //Imprime el archivo especificado
+        //Prints the specified file
         printFile: function(file){
+
+            /*
+            * Current implementation is for testing purposes
+            * Will be changed.
+            */
 
             var contents = "";
 
@@ -99,11 +118,13 @@ function newPrintAndSaveManager() {
             console.log(`rowId: ${file.rowId}\nname: ${file.name}\nlink: ${file.link}\ncontents: ${contents}`);
         },
 
-        //Imprime todos los archivos especificados
+        //Uses FileFetcher to fetch files and print them out
         fetchAndPrint: function(){
             this.fileFetcher.fetchFilesAndPrint();
         },
 
+        //Prints out each of the files
+        //WARNING: Do not use this function directly. Instead, use fetchAndPrint
         printAllSelected: function(){
 
             var _self = this;
@@ -111,105 +132,122 @@ function newPrintAndSaveManager() {
                 _self.printFile(file);
             })
         }
-
+        //End Methods--------------------------------------------------------------------------------
     };
 
+    //Initialize instance
     instance._init();
 
     return instance;
 }
 
-//Esta función descargará los archivos en un zip
+//This function is the Strategy used to put all files together in a zip file
 function saveAsZip(files){
+
+    var zipFile = JSZip();
+
     files.forEach(function(file) {
 
-        var contents = "";
+        // var contents = "";
+        //
+        // if (file.contents !== null)
+        //     contents = "Have Some STUFF";
+        // else
+        //     contents = "Nope. Nothing fetched"
+        //
+        // console.log(`rowId: ${file.rowId}\nname: ${file.name}\nlink: ${file.link}\ncontents: ${contents}`);
 
-        if (file.contents !== null)
-            contents = "Have Some STUFF";
-        else
-            contents = "Nope. Nothing fetched"
-
-        console.log(`rowId: ${file.rowId}\nname: ${file.name}\nlink: ${file.link}\ncontents: ${contents}`);
     });
 }
 
-//Esta función descargará los archivos uno por uno
+//This function is the strategy that saves each file as a separate request
+//Instead of a package
 function saveSeparately(files){
 
 }
 
 /*
-Esta fución representa el constructor de una clase que se encarga de pedir el contenido de
-archivos al BE
+This function represents the constructor of a "class" that asks the backend for files
+Specified in its files list.
 */
 function newFileFetcher(fileList, printerSaver) {
 
-    //Instancia de la clase que se deolverá
+    //A new instance of this class
     var instance = {
 
-        //Constructor de la clase
+        //Constructor
         _init: function() {
 
             this.setFileList(fileList);
             this.printerSaver = printerSaver;
         },
 
-        //Datos miembro
-        //Lista de archivos
-        //Cada archivo es un objeto con las siguientes propiedades
+        //Fields-----------------------------------------------------------------
+        //Array of only selected files from the table row
+        //Each file has the following properties
         /*
-            rowId: id de la fila a la que pertenece el archivo en la tabla de consulta de documentos en TBD
-            name: nombre del archivo, incluyendo su extensión
-            link: URL del backend donde se encuentra el archivo
-            contents: referencia al contenido del archivo (usualmente binario)
+            rowId: id of the row within the Consulta de Documentos's table
+            name: name of file, including its extension
+            link: URL used to access file on backend server
+            contents: reference to the file's contents. May be null
         */
         files: null,
 
+        //Reference to the PrinterSaver that this FileFetcher belongs to
         printerSaver: null,
 
-        //Esta función setea el arreglo de archivos con el que se trabajará
+        //This variable will reflect the current fetching state of the FileFetcher
+        fetching: false,
+        //Fields-----------------------------------------------------------------
+
+        //This function sets the array that it will be working with
         setFileList: function(newFileList) {
 
-            //Si el arreglo de archivos viene nulo, crear uno vacío
+            //If incoming argument is null, set an empty array
             if(fileList === null)
                 this.files = [];
             else
                 this.files = newFileList;
         },
 
-        //Esta función
-        extractFileNumber: function(link){
+        //This function returns the file id extracted from the file's URL
+        extractFileId: function(link){
 
-            //Partimos el URL para separar cada una de sus secciones
+            //Split the URL by the "/" separator
             var splitLink = link.toString().split("/");
 
-            //El penúltimo elemento de este arreglo es el número de archivo
-            // ejemplo: timp/core/server/endpoint.xsjs/attachments/get/275/
-            //El + es para castear la cadena a un número
+            //The next to last element of the array is the file id
+            //example URL: timp/core/server/endpoint.xsjs/attachments/get/275/
+            //Plus sign is to cast string to number
             return +splitLink[splitLink.length-2];
         },
 
         //Temporal
         fetchFilesAndPrint: function(){
-            this.recursiveFetchFileForPrint(0);
+            if(!this.fetching) {
+                this.fetching = true;
+                this.recursiveFetchFileForPrint(0);
+            }
+            else
+                console.log("Already fetching");
         },
 
         //Recursive function that will download all files
-        recursiveFetchFileForPrint: function(index){
-
-            //Base Case: if we reached past the last index in the array, printall and return
-            if(index >= this.files.length)
-            {
-                this.printerSaver.printAllSelected();
-                return;
-            }
+        recursiveFetchFileForPrint: function(index) {
 
             //Reference to this
             var _self = this;
 
+            //Base Case: if we reached past the last index in the array, printall and return
+            if(index >= _self.files.length)
+            {
+                _self.fetching = false;
+                _self.printerSaver.printAllSelected();
+                return;
+            }
+
             //If not base case, fetch specified index
-            Data.endpoints.attach.get.get(_self.extractFileNumber(_self.files[index].link))
+            Data.endpoints.attach.get.get(_self.extractFileId(_self.files[index].link))
                 .success(function(response){
 
                     console.log("Fetched in success callback");
@@ -236,18 +274,20 @@ function newFileFetcher(fileList, printerSaver) {
         //Recursive function that will download all files
         recursiveFetchFileForSave: function(index){
 
-            //Base Case: if we reached past the last index in the array, printall and return
-            if(index >= this.files.length)
+             //Reference to this
+            var _self = this;
+
+            //Base Case: if we reached past the last index in the array, save all and return
+            if(index >= _self.files.length)
             {
-                this.printerSaver.saveAllSelected();
+                _self.fetching = false;
+                _self.printerSaver.saveAllSelected();
                 return;
             }
 
-            //Reference to this
-            var _self = this;
 
-            //If not base case, fetch specified index
-            Data.endpoints.attach.get.get(_self.extractFileNumber(_self.files[index].link))
+            //If not base case, fetch file id from link of file with specified index, and call backend
+            Data.endpoints.attach.get.get(_self.extractFileId(_self.files[index].link))
                 .success(function(response){
 
                     console.log("Fetched in success callback");
@@ -272,7 +312,12 @@ function newFileFetcher(fileList, printerSaver) {
 
         //Temporal
         fetchFilesAndSave: function(){
-            this.recursiveFetchFileForSave(0);
+            if(!this.fetching) {
+                this.fetching = true;
+                this.recursiveFetchFileForSave(0);
+            }
+            else
+                console.log("Already fetching");
         },
 
         //Temporal
@@ -281,6 +326,7 @@ function newFileFetcher(fileList, printerSaver) {
         }
     };
 
+    //Initialize instance
     instance._init();
 
     return instance;

@@ -12,7 +12,6 @@ sap.ui.controller("app.controllers.documentConsulting.list", {
 	//Function to handle click on Download button
     handleDownloadClick: function(){
 
-
         //Filter files using the table controller's list of checked elements' ids
         this.printerSaver.applySelectionFilter(this._table.getCheckedElements());
 
