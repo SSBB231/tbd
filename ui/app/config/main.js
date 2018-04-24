@@ -3,8 +3,8 @@ jQuery.sap.registerModulePath("js", "ui/js");
 jQuery.sap.require('app.config.endpoints');
 jQuery.sap.require("sap.ui.app.Application");
 
-//Importar tbd/ui/js/PrintAndSaveManager.js
-jQuery.sap.require("js.PrintAndSaveManager");
+//Import tbd/ui/js/PrinterSaver.js
+jQuery.sap.require("js.PrinterSaver");
 
 sap.ui.app.Application.extend("TBD", {
 
