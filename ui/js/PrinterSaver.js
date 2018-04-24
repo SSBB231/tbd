@@ -89,7 +89,10 @@ function newPrinterSaver() {
                 contents = "Have Some STUFF";
 
             console.log(`rowId:\t${file.rowId}\nname:\t${file.name}\nlink:\t${file.link}\ncontents:\t${contents}\n\n`);
-        }
+        },
+
+        //TODO: Implement this
+        printAllSelected: function(){}
     };
 
     //Call constructor
