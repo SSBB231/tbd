@@ -270,7 +270,6 @@ function newFileFetcher(fileList, printerSaver) {
         //Temporal
         setFileContents: function(file, contents){
             file.contents = contents;
-            console.log(contents);
         }
     };
 
