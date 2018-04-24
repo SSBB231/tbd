@@ -81,7 +81,7 @@ function newPrintAndSaveManager() {
         },
 
         //Saves all files using the specified Strategy.
-        //WARNING: it's recommended to not use this function directly but actually
+        //WARNING: Do not use this function directly but use fetchAndSave instead
         saveAllSelected: function(){
             this.saveAllStrategy.save(this.selectedFiles);
         },
@@ -94,13 +94,21 @@ function newPrintAndSaveManager() {
             if(file.contents !== null)
                 contents = "Have Some STUFF";
 
-            console.log(`rowId:\t${file.rowId}\nname:\t${file.name}\nlink:\t${file.link}\ncontents:\t${contents}\n\n`);
+            console.log(`rowId: ${file.rowId}\nname: ${file.name}\nlink: ${file.link}\ncontents: ${file.contents ? "fetched" : "not fetched"}`);
         },
 
         //Imprime todos los archivos especificados
         fetchAndPrint: function(){
             this.fileFetcher.fetchFilesAndPrint();
         },
+
+        printAllSelected: function(){
+
+            var _self = this;
+            _self.files.forEach(function(file){
+                _self.printFile(file);
+            })
+        }
 
     };
 
@@ -111,8 +119,8 @@ function newPrintAndSaveManager() {
 
 //Esta función descargará los archivos en un zip
 function saveAsZip(files){
-    file.forEach(function(file){
-
+    files.forEach(function(file){
+        console.log(`rowId: ${file.rowId}\nname: ${file.name}\nlink: ${file.link}\ncontents: ${file.contents ? "fetched" : "not fetched"}`);
     });
 }
 
@@ -221,31 +229,27 @@ function newFileFetcher(fileList, printerSaver) {
                 return;
             }
 
+            //Reference to this
             var _self = this;
 
             //If not base case, fetch specified index
-            Data.endpoints.attach.get.get()
+            Data.endpoints.attach.get.get(_self.extractFileNumber(_self.files[index].link))
                 .success(function(response){
 
-                    console.log("Fetched in success");
-
                     //Upon receiving response, set the contents of the file
-                    _self.setFileContents(this.files[index], response);
+                    _self.setFileContents(_self.files[index], response);
 
                     //Use setTimeOut for recursive call to prevent stack overflow if too many files
                     setTimeout(_self.recursiveFetchFileForSave(index+1), 0);
                 })
                 .error(function(response){
 
-                    console.log("Fetched in error");
-
                     //Upon receiving response, set the contents of the file
-                    _self.setFileContents(this.files[index], response);
+                    _self.setFileContents(_self.files[index], response);
 
                     //Use setTimeOut for recursive call to prevent stack overflow if too many files
                     setTimeout(_self.recursiveFetchFileForSave(index+1), 0);
                 });
-
         },
 
         //Temporal
