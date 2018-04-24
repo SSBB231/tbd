@@ -149,7 +149,7 @@ function saveAsZip(files){
     files.forEach(function(file) {
 
 
-        zipFile.toString();
+        console.log(""+file.contents);
         //
         // if (file.contents !== null)
         //     contents = "Have Some STUFF";
