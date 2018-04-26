@@ -17,7 +17,10 @@ sap.ui.controller("app.controllers.documentConsulting.list", {
 
         //If there are no files selected, then send a message and return from function
         if(this.printerSaver.noFiles()) {
-            alert(this.noneSelectedMessage());
+            $.baseToast({
+                type: 'S',
+                text: this.noneSelectedMessage()
+            });
             return;
         }
 
@@ -32,7 +35,12 @@ sap.ui.controller("app.controllers.documentConsulting.list", {
 
         //If there are no files selected, then send a message and return from function
         if(this.printerSaver.noFiles()) {
-            alert(this.noneSelectedMessage());
+
+            $.baseToast({
+                type: 'S',
+                text: this.noneSelectedMessage()
+            });
+
             return;
         }
 
@@ -225,6 +233,8 @@ sap.ui.controller("app.controllers.documentConsulting.list", {
             }],
 			hideGrid: true
 		});
+
+		_self.printerSaver.setFFLoader(_self.Toolbar.baseLoader({modal: true}));
 	},
 
 
@@ -444,6 +454,7 @@ sap.ui.controller("app.controllers.documentConsulting.list", {
 					var fileInfo = {
 						rowId: element.id,
 						name: file.fileName,
+						extension: _self.extractFileExtension(file.fileName),
 						link: file.link,
 						contents: null
 					};
@@ -472,6 +483,19 @@ sap.ui.controller("app.controllers.documentConsulting.list", {
 		});
 
 	},
+
+    //This function returns the file id extracted from the file's URL
+    extractFileExtension: function(fileName){
+
+        //Split the fileName by the "." separator
+        var splitLink = fileName.toString().split(".");
+
+        //The last element of the array is the file extension
+        //example fileName: screenshot.png
+        //Plus sign is to cast string to number
+        return splitLink[splitLink.length-1];
+    },
+
 	_showInfoPanel: function(element) {
 		var _self = this;
 

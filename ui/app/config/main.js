@@ -9,6 +9,9 @@ jQuery.sap.require("js.PrintAndSaveManager");
 //Import JSZip
 jQuery.sap.require("sap.ui.thirdparty.jszip");
 
+//Import JSPDF
+jQuery.sap.require("lib.jsPDF");
+
 sap.ui.app.Application.extend("TBD", {
 
     config: null,
