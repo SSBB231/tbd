@@ -23,7 +23,7 @@ function newPrintAndSaveManager() {
         //Instance of a FileFetcher
         fileFetcher: null,
 
-        pageDimensions: null,
+        pageConfig: null,
         //End data members----------------------------------------------------
 
         //Constructor
@@ -32,11 +32,9 @@ function newPrintAndSaveManager() {
             this.allFiles = [];
             this.selectedFiles = [];
 
-            //These are in px. We can subtract 2 inches (must convert to pixels) from each to account for margins
-            this.pageDimensions = {width: 595, height: 842};
-
-            //
             this.fileFetcher = newFileFetcher(this.selectedFiles, this);
+
+            this.pageConfig = newPageConfiguration();
         },
 
         //Methods--------------------------------------------------------------------------------
@@ -71,7 +69,9 @@ function newPrintAndSaveManager() {
 
         //Strategy pattern used to choose between saving as zip or separately
         //Default is save as zip
-        saveAllStrategy: {save: saveAsZip},
+        saveAllStrategy: {save: this.saveFilesToZip},
+
+        printStrategy: {print: printReformat},
 
         //Adds file to the array of all files
         addFile: function(file){
@@ -109,6 +109,31 @@ function newPrintAndSaveManager() {
             this.saveAllStrategy.save(this.selectedFiles);
         },
 
+        saveFilesToZip: function(files){
+            var _self = this;
+
+            var zipFile = new JSZip();
+
+            files.forEach(function(file){
+                _self.saveFileToZip(file, zipFile);
+            });
+        },
+
+        saveFileToZip: function(file, zipFile){
+
+            if(this.isImageExtension(file.extension)) {
+                //It's an image
+
+            }
+            else if(file.extension === "txt") {
+                //It's a plain text file
+                zipFile.file(file.name, file.contents);
+            }
+            else {
+                //It's a binary file
+            }
+        },
+
         //Prints the specified file
         printFile: function(file) {
 
@@ -123,7 +148,7 @@ function newPrintAndSaveManager() {
             else if (this.isOtherSupportedMedia(file.extension))
             {
                 //Other formats that are supported
-
+                this.printiFrameOnPDF(file);
             }
 
         },
@@ -143,82 +168,18 @@ function newPrintAndSaveManager() {
 
             iframe.onload = function(){
 
-                //Adding image to DOM is not necessary
-                // document.body.appendChild(img);
-
-                //Create canvas and append it to main HTML body
-                $("body").append('<canvas id=\'myCanvas\' width=' + iframe.naturalWidth + 'px; height=' + iframe.naturalHeight + 'px></canvas>');
-
-                //Ge canvas reference
-                var c = document.getElementById("myCanvas");
-                //Extract context2D
-                var ctx = c.getContext("2d");
-
-                //Draw image on context
-                ctx.drawImage(iframe, 0, 0, iframe.naturalWidth, iframe.naturalHeight);
-                //Add image to PDF, utilize transform to CM
-
-                var newDimensions = null;
-
-                //Resizing image to 100% of writable area in PDF
-                if(iframe.naturalWidth >= _self.pageDimensions.width)
-                {
-                    newDimensions = _self.resizeOnWidth(iframe.naturalWidth, iframe.naturalHeight, 1);
-                }
-
-                //If still doesn't fit, resize again on height
-                if(newDimensions.height >= _self.pageDimensions.height)
-                {
-                    newDimensions = _self.resizeOnHeight(newDimensions.width, newDimensions.height, 1);
-                }
-
-                //2.54 is the one inch margin
-                pdf.addImage(c.toDataURL(), 'PNG', 0, 0, _self.pxToCM(newDimensions.width), _self.pxToCM(newDimensions.height), 'headerImage');
-                //Remove canvas from HTML body
-                document.getElementById("myCanvas").remove();
-
-                //No adding, no removing
-                // document.getElementById("myimg").remove();
-
-                //This will prompt user for printing as soon as he clicks on file
-                pdf.autoPrint();
-                //This saves the file to disk. Somewhat undesirable, but necessary for now
-                pdf.save();
+               iframe.contentWindow.focus();
+               iframe.contentWindow.print();
             };
 
-            //Set image source to prompt download
+            //Set pdf source to prompt download
             iframe.setAttribute("src", (_self.prepareLink(file.link)));
+            document.body.appendChild(iframe);
         },
 
         printTextOnPDF: function(file){
 
-            //Instantiate jsPDF, orientation: portrait, units: inches, format: A4 Letter
-            var pdf = jsPDF('p', 'cm', 'a4');
-
-            var size = file.contents.length;
-
-            const maxNumChars = 2300;
-
-            //Will only allow 2300 characters within one page
-            var numberOfPages = size/maxNumChars;
-            var extraPage = size % maxNumChars ? true : false;
-
-            var page = 1;
-            for(; page <= numberOfPages; page++) {
-
-                if(page > 1)
-                    pdf.addPage();
-
-                pdf.text(2.54, 2.54, file.contents.substring(page-1*maxNumChars, maxNumChars*page));
-            }
-
-            if(extraPage) {
-                pdf.addPage();
-                pdf.text(2.54, 2.54, file.contents.substring(page-1*maxNumChars));
-            }
-
-            pdf.autoPrint();
-            pdf.save();
+            this.printStrategy.print(file, this.pageConfig);
         },
 
         printImageOnPDF: function(file) {
@@ -251,19 +212,19 @@ function newPrintAndSaveManager() {
                 var newDimensions = null;
 
                 //Resizing image to 100% of writable area in PDF
-                if(img.naturalWidth >= _self.pageDimensions.width)
+                if(img.naturalWidth >= _self.pageConfig.dimensions.width)
                 {
-                    newDimensions = _self.resizeOnWidth(img.naturalWidth, img.naturalHeight, 1);
+                    newDimensions = _self.resizeOnWidth(_self.pxToCM(img.naturalWidth), _self.pxToCM(img.naturalHeight), 1);
                 }
 
                 //If still doesn't fit, resize again on height
-                if(newDimensions.height >= _self.pageDimensions.height)
+                if(newDimensions.height >= _self.pageConfig.dimensions.height)
                 {
                     newDimensions = _self.resizeOnHeight(newDimensions.width, newDimensions.height, 1);
                 }
 
                 //2.54 is the one inch margin
-                pdf.addImage(c.toDataURL(), 'PNG', 0, 0, _self.pxToCM(newDimensions.width), _self.pxToCM(newDimensions.height), 'headerImage');
+                pdf.addImage(c.toDataURL(), 'PNG', _self.pageConfig.margins.left, _self.pageConfig.margins.top, newDimensions.width, newDimensions.height, 'headerImage');
                 //Remove canvas from HTML body
                 document.getElementById("myCanvas").remove();
 
@@ -285,14 +246,14 @@ function newPrintAndSaveManager() {
         },
 
         resizeOnWidth: function(itemWidth, itemHeight, factor){
-            var newWidth = factor*this.pageDimensions.width;
+            var newWidth = factor*(this.pageConfig.marginatedWidth());
             var newHeight = newWidth/itemWidth*itemHeight;
 
             return {width: newWidth, height: newHeight};
         },
 
         resizeOnHeight: function(itemWidth, itemHeight, factor){
-            var newHeight = factor*this.pageDimensions.height;
+            var newHeight = factor*(this.pageConfig.marginatedHeight());
             var newWidth = newHeight/itemHeight*itemWidth;
 
             return {width: newWidth, height: newHeight};
@@ -337,34 +298,131 @@ function newPrintAndSaveManager() {
     return instance;
 }
 
-//This function is the Strategy used to put all files together in a zip file
-function saveAsZip(files){
+//Factory to create an instance of a page regular letter size page configuration for a jsPDF
+function newPageConfiguration(){
 
-    var zipFile = JSZip();
+    var instance = {
 
-    files.forEach(function(file) {
+        format: "a4",
+        orientation: "p",
+        units: "cm",
+        dimensions: {width: 0, height: 0},
+        margins: {left: 0, top: 0, right: 0, bottom: 0},
 
+        //10 pixels === 0.3 cm
+        pxToCM: function(px){
+            return px*0.3/10;
+        },
 
-        zipFile.file(file.name, file.contents, {binary: true});
+        _init: function(){
+            this.dimensions.width = 21;
+            this.dimensions.height = 29.7;
+            this.margins.left = 2.54;
+            this.margins.right = 2.54;
+            this.margins.top = 2.54;
+            this.margins.bottom = 2.54;
+        },
 
-        console.log(""+file.contents);
-        //
-        // if (file.contents !== null)
-        //     contents = "Have Some STUFF";
-        // else
-        //     contents = "Nope. Nothing fetched"
-        //
-        // console.log(`rowId: ${file.rowId}\nname: ${file.name}\nlink: ${file.link}\ncontents: ${contents}`);
+        marginatedWidth: function(){
+            return this.dimensions.width-this.margins.left-this.margins.right;
+        },
 
-    });
+        marginatedHeight: function(){
+            return this.dimensions.height-this.margins.top-this.margins.bottom;
+        }
 
-    saveAs(zipFile.generate({type: "blob"}), "package.zip");
+    };
+
+    instance._init();
+
+    return instance;
 }
 
-//This function is the strategy that saves each file as a separate request
-//Instead of a package
-function saveSeparately(files){
+function printReformat(file, pageConfig){
 
+    //Instantiate jsPDF, orientation: portrait, units: inches, format: A4 Letter
+    var pdf = jsPDF(pageConfig.orientation, pageConfig.units, pageConfig.format);
+
+    pdf.setFontSize(12);
+
+    //Cleans file contents from formatting such as tabs
+    file.contents.replace("\t", "");
+
+    var lines = pdf.splitTextToSize(file.contents, pageConfig.marginatedWidth());
+
+    pages = _.chunk(lines, 48);
+
+    pages.forEach(function(page, count){
+        if(count > 0)
+            pdf.addPage();
+
+        pdf.text(pageConfig.margins.left, pageConfig.margins.right, page);
+    });
+
+    pdf.autoPrint();
+    pdf.save();
+}
+
+function printMaxLength(file){
+    //Instantiate jsPDF, orientation: portrait, units: inches, format: A4 Letter
+    var pdf = jsPDF('p', 'cm', 'a4');
+
+    var size = file.contents.length;
+
+    const maxNumChars = 2300;
+
+    //Will only allow 2300 characters within one page
+    var numberOfPages = size/maxNumChars;
+    var extraPage = size % maxNumChars ? true : false;
+
+    var page = 1;
+    for(; page <= numberOfPages; page++) {
+
+        if(page > 1)
+            pdf.addPage();
+
+        pdf.text(2.54, 2.54, file.contents.substring(page-1*maxNumChars, maxNumChars*page));
+    }
+
+    if(extraPage) {
+        pdf.addPage();
+        pdf.text(2.54, 2.54, file.contents.substring(page-1*maxNumChars));
+    }
+
+    pdf.autoPrint();
+    pdf.save();
+}
+
+function printTextAsHTML(file, pageConfig){
+    //Instantiate jsPDF, orientation: portrait, units: inches, format: A4 Letter
+    var pdf = jsPDF('p', 'cm', 'a4');
+
+    var size = file.contents.length;
+
+    const maxNumChars = 2300;
+
+    //Will only allow 2300 characters within one page
+    var numberOfPages = size/maxNumChars;
+    var extraPage = size % maxNumChars ? true : false;
+
+    var page = 1;
+    for(; page <= numberOfPages; page++) {
+
+        if(page > 1)
+            pdf.addPage();
+
+        var div = document.createElement("div");
+        div.setAttribute("", "")
+
+    }
+
+    if(extraPage) {
+        pdf.addPage();
+        pdf.text(2.54, 2.54, file.contents.substring(page-1*maxNumChars));
+    }
+
+    pdf.autoPrint();
+    pdf.save();
 }
 
 /*
@@ -568,6 +626,7 @@ function newFileFetcher(fileList, printerSaver) {
                     //Use setTimeOut for recursive call to prevent stack overflow if too many files
                     setTimeout(_self.recursiveFetchFileForSave(index+1), 0);
                 });
+
         },
 
         //Temporal
