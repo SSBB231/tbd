@@ -35,6 +35,8 @@ function newPrintAndSaveManager() {
             this.fileFetcher = newFileFetcher(this.selectedFiles, this);
 
             this.pageConfig = newPageConfiguration();
+
+            this.saveAllStrategy.save = this.saveFilesToZip.bind(this);
         },
 
         //Methods--------------------------------------------------------------------------------
@@ -69,7 +71,7 @@ function newPrintAndSaveManager() {
 
         //Strategy pattern used to choose between saving as zip or separately
         //Default is save as zip
-        saveAllStrategy: {save: this.saveFilesToZip},
+        saveAllStrategy: {save: null},
 
         printStrategy: {print: printReformat},
 
@@ -117,20 +119,30 @@ function newPrintAndSaveManager() {
             files.forEach(function(file){
                 _self.saveFileToZip(file, zipFile);
             });
+
+            saveAs(zipFile.generate({type: "blob", compression: "DEFLATE"}), i18n("PACKAGE")+".zip");
         },
 
         saveFileToZip: function(file, zipFile){
 
-            if(this.isImageExtension(file.extension)) {
-                //It's an image
+            if(file.contents == null) {
+                //Log error and return
+                return;
+            }
 
+            if(this.isImageExtension(file.extension)) {
+                zipFile.file(file.name, file.contents, {base64: true});
             }
             else if(file.extension === "txt") {
                 //It's a plain text file
                 zipFile.file(file.name, file.contents);
             }
-            else {
+            else if (file.extension === "pdf"){
                 //It's a binary file
+                zipFile.file(file.name, file.contents, {binary: true});
+            }
+            else {
+                //Other formats not yet supported
             }
         },
 
@@ -155,6 +167,7 @@ function newPrintAndSaveManager() {
 
         isOtherSupportedMedia: function(fileExtension) {
             var otherExtensions = ["pdf"];
+            return otherExtensions.includes(fileExtension);
         },
 
         printiFrameOnPDF: function(file) {
@@ -170,6 +183,8 @@ function newPrintAndSaveManager() {
 
                iframe.contentWindow.focus();
                iframe.contentWindow.print();
+
+               document.getElementById("myiFrame").remove();
             };
 
             //Set pdf source to prompt download
@@ -234,11 +249,15 @@ function newPrintAndSaveManager() {
                 //This will prompt user for printing as soon as he clicks on file
                 pdf.autoPrint();
                 //This saves the file to disk. Somewhat undesirable, but necessary for now
-                pdf.save();
+                pdf.save(_self.fileNameToPDFExtension(file.name));
             };
 
             //Set image source to prompt download
             img.setAttribute("src", (_self.prepareLink(file.link)));
+        },
+
+        fileNameToPDFExtension: function(fileName){
+            return fileName.split(".")[0]+".pdf";
         },
 
         pxToCM: function(px){
@@ -565,7 +584,6 @@ function newFileFetcher(fileList, printerSaver) {
                     .error(function(response){
 
                         console.log("Fetched in success callback");
-                        console.log(_self.prepareLink(file.link));
 
                         //Upon receiving response, set the contents of the file
                         _self.setFileContents(file, response);
@@ -585,7 +603,10 @@ function newFileFetcher(fileList, printerSaver) {
                 return data;
         },
 
-        /* WARNING: ADDED DATA CHANGER TO SAVE FILE arrayToBase64 */
+        isDoc: function(fileExtension){
+            var extensions = ["doc","docx"];
+            return extensions.includes(fileExtension);
+        },
 
         //Recursive function that will download all files
         recursiveFetchFileForSave: function(index){
@@ -604,28 +625,81 @@ function newFileFetcher(fileList, printerSaver) {
 
             var file = _self.files[index];
 
-            //If not base case, fetch file id from link of file with specified index, and call backend
-            Data.endpoints.attach.get.get(_self.extractFileId(file.link))
-                .success(function(response){
+            var parameters = {id: _self.extractFileId(file.link), getBytes: false};
 
-                    console.log("Fetched in success callback");
+            //If file is image, we skip it from being downloaded. Image request will be handled
+            //by img HTML element
+            if(_self.isImageExtension(file.extension)){
+                var _self = this;
 
-                    //Upon receiving response, set the contents of the file
-                    _self.setFileContents(file, _self.getRightData(file.extension, response));
+                //Create an image HTML element
+                var img = document.createElement("IMG");
+                img.setAttribute("id", "myimg");
+                img.onload = function(){
 
-                    //Use setTimeOut for recursive call to prevent stack overflow if too many files
+                    //Create canvas and append it to main HTML body
+                    $("body").append('<canvas id=\'myCanvas\' width=' + img.naturalWidth + 'px; height=' + img.naturalHeight + 'px></canvas>');
+
+                    //Ge canvas reference
+                    var c = document.getElementById("myCanvas");
+                    //Extract context2D
+                    var ctx = c.getContext("2d");
+
+                    //Draw image on context
+                    ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
+                    //Add image to PDF, utilize transform to CM
+
+                    _self.setFileContents(file, c.toDataURL().split('base64,')[1]);
+
+                    document.getElementById("myCanvas").remove();
+
+                    //Just move on to next
                     setTimeout(_self.recursiveFetchFileForSave(index+1), 0);
-                })
-                .error(function(response){
+                };
 
-                    console.log("Fetched in error callback");
+                //Set image source to prompt download
+                img.setAttribute("src", (_self.prepareLink(file.link)));
+            }
+            else if(_self.isDoc(file.extension)){
 
-                    //Upon receiving response, set the contents of the file
-                    _self.setFileContents(file, _self.getRightData(file.extension, response));
+                //Not supported yet
+                //Just move on to next
+                setTimeout(_self.recursiveFetchFileForSave(index+1), 0);
+            }
+            else {
+                //If not base case, fetch file id from link of file with specified index, and call backend
+                Data.endpoints.attach.get.get(parameters)
+                    .success(function(response) {
 
-                    //Use setTimeOut for recursive call to prevent stack overflow if too many files
-                    setTimeout(_self.recursiveFetchFileForSave(index+1), 0);
-                });
+                        console.log("Fetched in success callback");
+
+                        if(response.file) {
+                            //Upon receiving response, set the contents of the file
+                            _self.setFileContents(file, _self.getRightData(file.extension, response.file));
+                        } else {
+                            _self.setFileContents(file, _self.getRightData(file.extension, response));
+                        }
+
+                        //Use setTimeOut for recursive call to prevent stack overflow if too many files
+                        setTimeout(_self.recursiveFetchFileForSave(index+1), 0);
+                    })
+                    .error(function(response){
+
+                        console.log("Fetched in error callback");
+                        console.log(file.link);
+                        console.log(file.contents);
+
+                        if(response.file) {
+                            //Upon receiving response, set the contents of the file
+                            _self.setFileContents(file, _self.getRightData(file.extension, response.file));
+                        } else {
+                            _self.setFileContents(file, _self.getRightData(file.extension, response));
+                        }
+
+                        //Use setTimeOut for recursive call to prevent stack overflow if too many files
+                        setTimeout(_self.recursiveFetchFileForSave(index+1), 0);
+                    });
+            }
 
         },
 
@@ -642,9 +716,14 @@ function newFileFetcher(fileList, printerSaver) {
                 console.log("Already fetching");
         },
 
-        //Temporal
+        //Will check for nonexistent content
         setFileContents: function(file, contents) {
-            file.contents = contents;
+            if(contents !== "Received an nonexistent ID")
+                file.contents = contents;
+
+            console.log(file.name);
+            console.log(file.link);
+            console.log(file.contents);
         }
     };
 
@@ -652,4 +731,53 @@ function newFileFetcher(fileList, printerSaver) {
     instance._init();
 
     return instance;
+}
+
+//TODO: LOGGER WILL BE IMPLEMENTED IN A FUTURE RELEASE
+function newLogger(){
+    
+    var instance = {
+
+        log: null,
+
+        _init: function(){
+            this.log = [];
+        },
+
+        addSuccessLine: function(file, message){
+            this.log.push(`\n`);
+        },
+
+        addFailureLine: function(file, message){
+
+        }
+
+    };
+    
+    instance._ini();
+    
+    return instance;
+}
+
+// ucs-2 string to base64 encoded ascii
+function utoa(str) {
+    return window.btoa(unescape(encodeURIComponent(str)));
+}
+// base64 encoded ascii to ucs-2 string
+function atou(str) {
+    return decodeURIComponent(escape(window.atob(str)));
+}
+
+
+function ab2str(buf) {
+    return String.fromCharCode.apply(null, new Uint16Array(buf));
+}
+
+function str2ab(str) {
+    var buf = new ArrayBuffer(str.length*2); // 2 bytes for each char
+    var bufView = new Uint16Array(buf);
+    for (var i=0, strLen=str.length; i < strLen; i++) {
+        bufView[i] = str.charCodeAt(i);
+    }
+    return buf;
 }
